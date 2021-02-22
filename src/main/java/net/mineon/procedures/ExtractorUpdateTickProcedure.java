@@ -1,28 +1,11 @@
 package net.mineon.procedures;
 
-import net.mineon.item.GasCanisterItem;
-import net.mineon.MineonModElements;
-
-import net.minecraftforge.items.IItemHandlerModifiable;
-import net.minecraftforge.items.CapabilityItemHandler;
-import net.minecraftforge.fml.server.ServerLifecycleHooks;
-
-import net.minecraft.world.IWorld;
-import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.server.MinecraftServer;
-import net.minecraft.item.ItemStack;
-import net.minecraft.block.Blocks;
-
-import java.util.concurrent.atomic.AtomicReference;
-import java.util.Random;
-import java.util.Map;
-
 @MineonModElements.ModElement.Tag
 public class ExtractorUpdateTickProcedure extends MineonModElements.ModElement {
+
 	public ExtractorUpdateTickProcedure(MineonModElements instance) {
 		super(instance, 20);
+
 	}
 
 	public static void executeProcedure(Map<String, Object> dependencies) {
@@ -46,10 +29,12 @@ public class ExtractorUpdateTickProcedure extends MineonModElements.ModElement {
 				System.err.println("Failed to load dependency world for procedure ExtractorUpdateTick!");
 			return;
 		}
+
 		double x = dependencies.get("x") instanceof Integer ? (int) dependencies.get("x") : (double) dependencies.get("x");
 		double y = dependencies.get("y") instanceof Integer ? (int) dependencies.get("y") : (double) dependencies.get("y");
 		double z = dependencies.get("z") instanceof Integer ? (int) dependencies.get("z") : (double) dependencies.get("z");
 		IWorld world = (IWorld) dependencies.get("world");
+
 		{
 			MinecraftServer mcserv = ServerLifecycleHooks.getCurrentServer();
 			if (mcserv != null)
@@ -86,7 +71,7 @@ public class ExtractorUpdateTickProcedure extends MineonModElements.ModElement {
 		{
 			MinecraftServer mcserv = ServerLifecycleHooks.getCurrentServer();
 			if (mcserv != null)
-				mcserv.getPlayerList().sendMessage(new StringTextComponent((("in slot is:  ") + "" + (/* @ItemStack */(new Object() {
+				mcserv.getPlayerList().sendMessage(new StringTextComponent((("in slot is:  ") + "" + (/*@ItemStack*/(new Object() {
 					public ItemStack getItemStack(BlockPos pos, int sltid) {
 						AtomicReference<ItemStack> _retval = new AtomicReference<>(ItemStack.EMPTY);
 						TileEntity _ent = world.getTileEntity(pos);
@@ -293,5 +278,7 @@ public class ExtractorUpdateTickProcedure extends MineonModElements.ModElement {
 				}
 			}.getItemStack(new BlockPos((int) x, (int) y, (int) z), (int) (0)))).setDisplayName(new StringTextComponent("Hydrogen Canister"));
 		}
+
 	}
+
 }

@@ -68,6 +68,14 @@ public class MineonModVariables {
 		public INBT writeNBT(Capability<PlayerVariables> capability, PlayerVariables instance, Direction side) {
 			CompoundNBT nbt = new CompoundNBT();
 			nbt.putBoolean("isCybernetic", instance.isCybernetic);
+			nbt.putDouble("strength", instance.strength);
+			nbt.putDouble("fireResistance", instance.fireResistance);
+			nbt.putDouble("regeneration", instance.regeneration);
+			nbt.putDouble("nightVision", instance.nightVision);
+			nbt.putDouble("resistance", instance.resistance);
+			nbt.putDouble("speed", instance.speed);
+			nbt.putDouble("waterBreathing", instance.waterBreathing);
+			nbt.putDouble("jump", instance.jump);
 			return nbt;
 		}
 
@@ -75,11 +83,27 @@ public class MineonModVariables {
 		public void readNBT(Capability<PlayerVariables> capability, PlayerVariables instance, Direction side, INBT inbt) {
 			CompoundNBT nbt = (CompoundNBT) inbt;
 			instance.isCybernetic = nbt.getBoolean("isCybernetic");
+			instance.strength = nbt.getDouble("strength");
+			instance.fireResistance = nbt.getDouble("fireResistance");
+			instance.regeneration = nbt.getDouble("regeneration");
+			instance.nightVision = nbt.getDouble("nightVision");
+			instance.resistance = nbt.getDouble("resistance");
+			instance.speed = nbt.getDouble("speed");
+			instance.waterBreathing = nbt.getDouble("waterBreathing");
+			instance.jump = nbt.getDouble("jump");
 		}
 	}
 
 	public static class PlayerVariables {
 		public boolean isCybernetic = false;
+		public double strength = 0;
+		public double fireResistance = 0;
+		public double regeneration = 0;
+		public double nightVision = 0;
+		public double resistance = 0;
+		public double speed = 0;
+		public double waterBreathing = 0;
+		public double jump = 0;
 		public void syncPlayerVariables(Entity entity) {
 			if (entity instanceof ServerPlayerEntity)
 				MineonMod.PACKET_HANDLER.send(PacketDistributor.PLAYER.with(() -> (ServerPlayerEntity) entity), new PlayerVariablesSyncMessage(this));
@@ -112,6 +136,14 @@ public class MineonModVariables {
 				.orElse(new PlayerVariables()));
 		PlayerVariables clone = ((PlayerVariables) event.getEntity().getCapability(PLAYER_VARIABLES_CAPABILITY, null).orElse(new PlayerVariables()));
 		clone.isCybernetic = original.isCybernetic;
+		clone.strength = original.strength;
+		clone.fireResistance = original.fireResistance;
+		clone.regeneration = original.regeneration;
+		clone.nightVision = original.nightVision;
+		clone.resistance = original.resistance;
+		clone.speed = original.speed;
+		clone.waterBreathing = original.waterBreathing;
+		clone.jump = original.jump;
 		if (!event.isWasDeath()) {
 		}
 	}
@@ -137,6 +169,14 @@ public class MineonModVariables {
 					PlayerVariables variables = ((PlayerVariables) Minecraft.getInstance().player.getCapability(PLAYER_VARIABLES_CAPABILITY, null)
 							.orElse(new PlayerVariables()));
 					variables.isCybernetic = message.data.isCybernetic;
+					variables.strength = message.data.strength;
+					variables.fireResistance = message.data.fireResistance;
+					variables.regeneration = message.data.regeneration;
+					variables.nightVision = message.data.nightVision;
+					variables.resistance = message.data.resistance;
+					variables.speed = message.data.speed;
+					variables.waterBreathing = message.data.waterBreathing;
+					variables.jump = message.data.jump;
 				}
 			});
 			context.setPacketHandled(true);

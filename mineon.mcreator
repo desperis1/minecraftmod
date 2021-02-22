@@ -241,24 +241,6 @@
       "registry_name": "cybernetic_modification_device"
     },
     {
-      "name": "Extractor",
-      "type": "block",
-      "sortid": 16,
-      "compiles": true,
-      "locked_code": false,
-      "ids": {},
-      "registry_name": "extractor"
-    },
-    {
-      "name": "ExtractorGUI",
-      "type": "gui",
-      "sortid": 17,
-      "compiles": true,
-      "locked_code": false,
-      "ids": {},
-      "registry_name": "extractor_gui"
-    },
-    {
       "name": "ExtractorGUIChangeButtononclik",
       "type": "procedure",
       "sortid": 18,
@@ -288,21 +270,22 @@
       }
     },
     {
-      "name": "GasCanisterItemIsCraftedsmelted",
-      "type": "procedure",
-      "sortid": 19,
+      "name": "GasCanisterRecipe",
+      "type": "recipe",
+      "sortid": 21,
       "compiles": true,
       "locked_code": false,
       "ids": {},
-      "registry_name": "gas_canister_item_is_craftedsmelted",
-      "metadata": {
-        "dependencies": [
-          {
-            "name": "itemstack",
-            "type": "itemstack"
-          }
-        ]
-      }
+      "registry_name": "gas_canister_recipe"
+    },
+    {
+      "name": "ExtractorGUI",
+      "type": "gui",
+      "sortid": 17,
+      "compiles": true,
+      "locked_code": false,
+      "ids": {},
+      "registry_name": "extractor_gui"
     },
     {
       "name": "ExtractorUpdateTick",
@@ -334,13 +317,149 @@
       }
     },
     {
-      "name": "GasCanisterRecipe",
-      "type": "recipe",
+      "name": "Extractor",
+      "type": "block",
+      "sortid": 16,
+      "compiles": true,
+      "locked_code": false,
+      "ids": {},
+      "registry_name": "extractor"
+    },
+    {
+      "name": "GasCanisterItemIsCraftedsmelted",
+      "type": "procedure",
+      "sortid": 19,
+      "compiles": true,
+      "locked_code": false,
+      "ids": {},
+      "registry_name": "gas_canister_item_is_craftedsmelted",
+      "metadata": {
+        "dependencies": [
+          {
+            "name": "itemstack",
+            "type": "itemstack"
+          }
+        ]
+      }
+    },
+    {
+      "name": "CyberneticModificationDeviceOnBlockRightClicked",
+      "type": "procedure",
+      "sortid": 17,
+      "compiles": true,
+      "locked_code": false,
+      "ids": {},
+      "registry_name": "cybernetic_modification_device_on_block_right_clicked",
+      "metadata": {
+        "dependencies": [
+          {
+            "name": "entity",
+            "type": "entity"
+          },
+          {
+            "name": "x",
+            "type": "number"
+          },
+          {
+            "name": "y",
+            "type": "number"
+          },
+          {
+            "name": "z",
+            "type": "number"
+          },
+          {
+            "name": "world",
+            "type": "world"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Cybernetic",
+      "type": "tag",
+      "sortid": 19,
+      "compiles": true,
+      "locked_code": false,
+      "ids": {},
+      "registry_name": "cybernetic"
+    },
+    {
+      "name": "CyberneticEnhancementDevice",
+      "type": "block",
       "sortid": 21,
       "compiles": true,
       "locked_code": false,
       "ids": {},
-      "registry_name": "gas_canister_recipe"
+      "registry_name": "cybernetic_enhancement_device"
+    },
+    {
+      "name": "OnCyberneticsAccepted",
+      "type": "procedure",
+      "sortid": 18,
+      "compiles": true,
+      "locked_code": false,
+      "ids": {},
+      "registry_name": "on_cybernetics_accepted",
+      "metadata": {
+        "dependencies": [
+          {
+            "name": "entity",
+            "type": "entity"
+          }
+        ]
+      }
+    },
+    {
+      "name": "IsCybernetic",
+      "type": "procedure",
+      "sortid": 20,
+      "compiles": true,
+      "locked_code": false,
+      "ids": {},
+      "registry_name": "is_cybernetic",
+      "metadata": {
+        "dependencies": [
+          {
+            "name": "entity",
+            "type": "entity"
+          },
+          {
+            "name": "x",
+            "type": "number"
+          },
+          {
+            "name": "y",
+            "type": "number"
+          },
+          {
+            "name": "z",
+            "type": "number"
+          },
+          {
+            "name": "world",
+            "type": "world"
+          }
+        ]
+      }
+    },
+    {
+      "name": "CyberneticEnhancementDisplay",
+      "type": "gui",
+      "sortid": 22,
+      "compiles": true,
+      "locked_code": false,
+      "ids": {},
+      "registry_name": "cybernetic_enhancement_display"
+    },
+    {
+      "name": "CyberneticModificationDeviceDisplay",
+      "type": "gui",
+      "sortid": 16,
+      "compiles": true,
+      "locked_code": false,
+      "ids": {},
+      "registry_name": "cybernetic_modification_device_display"
     }
   ],
   "variable_elements": [
@@ -349,6 +468,54 @@
       "type": "logic",
       "scope": "player_persistent",
       "value": "false"
+    },
+    {
+      "name": "strength",
+      "type": "number",
+      "scope": "player_persistent",
+      "value": "0"
+    },
+    {
+      "name": "fireResistance",
+      "type": "number",
+      "scope": "player_persistent",
+      "value": "0"
+    },
+    {
+      "name": "regeneration",
+      "type": "number",
+      "scope": "player_persistent",
+      "value": "0"
+    },
+    {
+      "name": "nightVision",
+      "type": "number",
+      "scope": "player_persistent",
+      "value": "0"
+    },
+    {
+      "name": "resistance",
+      "type": "number",
+      "scope": "player_persistent",
+      "value": "0"
+    },
+    {
+      "name": "speed",
+      "type": "number",
+      "scope": "player_persistent",
+      "value": "0"
+    },
+    {
+      "name": "waterBreathing",
+      "type": "number",
+      "scope": "player_persistent",
+      "value": "0"
+    },
+    {
+      "name": "jump",
+      "type": "number",
+      "scope": "player_persistent",
+      "value": "0"
     }
   ],
   "sound_elements": [],

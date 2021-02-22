@@ -1,18 +1,11 @@
 package net.mineon.procedures;
 
-import net.mineon.MineonModElements;
-
-import net.minecraft.world.IWorld;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.block.BlockState;
-
-import java.util.Map;
-
 @MineonModElements.ModElement.Tag
 public class ExtractorGUIChangeButtononclikProcedure extends MineonModElements.ModElement {
+
 	public ExtractorGUIChangeButtononclikProcedure(MineonModElements instance) {
 		super(instance, 18);
+
 	}
 
 	public static void executeProcedure(Map<String, Object> dependencies) {
@@ -36,10 +29,12 @@ public class ExtractorGUIChangeButtononclikProcedure extends MineonModElements.M
 				System.err.println("Failed to load dependency world for procedure ExtractorGUIChangeButtononclik!");
 			return;
 		}
+
 		double x = dependencies.get("x") instanceof Integer ? (int) dependencies.get("x") : (double) dependencies.get("x");
 		double y = dependencies.get("y") instanceof Integer ? (int) dependencies.get("y") : (double) dependencies.get("y");
 		double z = dependencies.get("z") instanceof Integer ? (int) dependencies.get("z") : (double) dependencies.get("z");
 		IWorld world = (IWorld) dependencies.get("world");
+
 		if ((("Oxygen").equals((new Object() {
 			public String getValue(BlockPos pos, String tag) {
 				TileEntity tileEntity = world.getTileEntity(pos);
@@ -54,6 +49,7 @@ public class ExtractorGUIChangeButtononclikProcedure extends MineonModElements.M
 				BlockState _bs = world.getBlockState(_bp);
 				if (_tileEntity != null)
 					_tileEntity.getTileData().putString("Source", "Hydrogen");
+
 				world.getWorld().notifyBlockUpdate(_bp, _bs, _bs, 3);
 			}
 		} else if ((("Hydrogen").equals((new Object() {
@@ -70,6 +66,7 @@ public class ExtractorGUIChangeButtononclikProcedure extends MineonModElements.M
 				BlockState _bs = world.getBlockState(_bp);
 				if (_tileEntity != null)
 					_tileEntity.getTileData().putString("Source", "Oxygen");
+
 				world.getWorld().notifyBlockUpdate(_bp, _bs, _bs, 3);
 			}
 		} else {
@@ -79,8 +76,11 @@ public class ExtractorGUIChangeButtononclikProcedure extends MineonModElements.M
 				BlockState _bs = world.getBlockState(_bp);
 				if (_tileEntity != null)
 					_tileEntity.getTileData().putString("Source", "Oxygen");
+
 				world.getWorld().notifyBlockUpdate(_bp, _bs, _bs, 3);
 			}
 		}
+
 	}
+
 }

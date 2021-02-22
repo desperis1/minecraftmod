@@ -5,7 +5,7 @@
     "texture": "cybernetic_modification_device_main",
     "textureTop": "",
     "textureLeft": "",
-    "textureFront": "cybernetic_modification_device",
+    "textureFront": "cybernetic_enhancement_device_front",
     "textureRight": "",
     "textureBack": "",
     "renderType": 10,
@@ -24,7 +24,7 @@
     "Mx": 1.0,
     "My": 1.0,
     "Mz": 1.0,
-    "name": "Cybernetic Modification Device",
+    "name": "Cybernetic Enhancement Device",
     "specialInfo": [],
     "hardness": 10.0,
     "resistance": 1000.0,
@@ -33,7 +33,7 @@
     "creativeTab": {
       "value": "CUSTOM:Mineon"
     },
-    "destroyTool": "pickaxe",
+    "destroyTool": "Not specified",
     "customDrop": {
       "value": ""
     },
@@ -67,7 +67,7 @@
     },
     "luminance": 0.0,
     "unbreakable": false,
-    "breakHarvestLevel": 2,
+    "breakHarvestLevel": 1,
     "spawnParticles": false,
     "particleToSpawn": {
       "value": "EXPLOSION_NORMAL"
@@ -76,9 +76,9 @@
     "particleSpawningRadious": 0.5,
     "particleAmount": 4,
     "hasInventory": true,
-    "guiBoundTo": "<NONE>",
-    "openGUIOnRightClick": false,
-    "inventorySize": 9,
+    "guiBoundTo": "CyberneticEnhancementDisplay",
+    "openGUIOnRightClick": true,
+    "inventorySize": 0,
     "inventoryStackSize": 64,
     "inventoryDropWhenDestroyed": false,
     "inventoryComparatorPower": false,
@@ -92,9 +92,6 @@
     "isFluidTank": false,
     "fluidCapacity": 8000,
     "fluidRestrictions": [],
-    "onRightClicked": {
-      "name": "CyberneticModificationDeviceOnBlockRightClicked"
-    },
     "spawnWorldTypes": [],
     "restrictionBiomes": [],
     "blocksToReplace": [],

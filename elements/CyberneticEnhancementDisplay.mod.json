@@ -1,0 +1,116 @@
+{
+  "_fv": 13,
+  "_type": "gui",
+  "definition": {
+    "type": 0,
+    "width": 176,
+    "height": 166,
+    "inventoryOffsetX": 0,
+    "inventoryOffsetY": 0,
+    "renderBgLayer": true,
+    "doesPauseGame": false,
+    "components": [
+      {
+        "type": "label",
+        "data": {
+          "text": "Upgrades",
+          "color": {
+            "value": -16777216,
+            "falpha": 0.0
+          },
+          "name": "Upgrades",
+          "x": 194,
+          "y": 44
+        }
+      },
+      {
+        "type": "button",
+        "data": {
+          "text": "+ Strength",
+          "width": 75,
+          "height": 20,
+          "name": "+ Strength",
+          "x": 130,
+          "y": 62
+        }
+      },
+      {
+        "type": "button",
+        "data": {
+          "text": "+ Resistance",
+          "width": 85,
+          "height": 20,
+          "name": "+ Resistance",
+          "x": 210,
+          "y": 62
+        }
+      },
+      {
+        "type": "button",
+        "data": {
+          "text": "+ Jump",
+          "width": 55,
+          "height": 20,
+          "name": "+ Jump",
+          "x": 130,
+          "y": 86
+        }
+      },
+      {
+        "type": "button",
+        "data": {
+          "text": "+ Night Vision",
+          "width": 95,
+          "height": 20,
+          "name": "+ Night Vision",
+          "x": 200,
+          "y": 86
+        }
+      },
+      {
+        "type": "button",
+        "data": {
+          "text": "+ Fire Resistance",
+          "width": 110,
+          "height": 20,
+          "name": "+ Fire Resistance",
+          "x": 159,
+          "y": 111
+        }
+      },
+      {
+        "type": "button",
+        "data": {
+          "text": "+ Water Breathing",
+          "width": 100,
+          "height": 20,
+          "name": "+ Water Breathing",
+          "x": 163,
+          "y": 136
+        }
+      },
+      {
+        "type": "button",
+        "data": {
+          "text": "+ Regeneration",
+          "width": 95,
+          "height": 20,
+          "name": "+ Regeneration",
+          "x": 131,
+          "y": 161
+        }
+      },
+      {
+        "type": "button",
+        "data": {
+          "text": "+ Speed",
+          "width": 60,
+          "height": 20,
+          "name": "+ Speed",
+          "x": 235,
+          "y": 161
+        }
+      }
+    ]
+  }
+}

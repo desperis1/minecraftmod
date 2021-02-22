@@ -4,14 +4,14 @@ package net.mineon.gui;
 import net.mineon.MineonMod;
 
 @MineonModElements.ModElement.Tag
-public class ExtractorGUIGui extends MineonModElements.ModElement {
+public class CyberneticEnhancementDisplayGui extends MineonModElements.ModElement {
 
 	public static HashMap guistate = new HashMap();
 
 	private static ContainerType<GuiContainerMod> containerType = null;
 
-	public ExtractorGUIGui(MineonModElements instance) {
-		super(instance, 17);
+	public CyberneticEnhancementDisplayGui(MineonModElements instance) {
+		super(instance, 22);
 
 		elements.addNetworkMessage(ButtonPressedMessage.class, ButtonPressedMessage::buffer, ButtonPressedMessage::new,
 				ButtonPressedMessage::handler);
@@ -31,7 +31,7 @@ public class ExtractorGUIGui extends MineonModElements.ModElement {
 
 	@SubscribeEvent
 	public void registerContainer(RegistryEvent.Register<ContainerType<?>> event) {
-		event.getRegistry().register(containerType.setRegistryName("extractor_gui"));
+		event.getRegistry().register(containerType.setRegistryName("cybernetic_enhancement_display"));
 	}
 
 	public static class GuiContainerModFactory implements IContainerFactory {
@@ -60,7 +60,7 @@ public class ExtractorGUIGui extends MineonModElements.ModElement {
 			this.entity = inv.player;
 			this.world = inv.player.world;
 
-			this.internal = new ItemStackHandler(1);
+			this.internal = new ItemStackHandler(0);
 
 			BlockPos pos = null;
 			if (extraData != null) {
@@ -69,51 +69,6 @@ public class ExtractorGUIGui extends MineonModElements.ModElement {
 				this.y = pos.getY();
 				this.z = pos.getZ();
 			}
-
-			if (pos != null) {
-				if (extraData.readableBytes() == 1) { // bound to item
-					byte hand = extraData.readByte();
-					ItemStack itemstack;
-					if (hand == 0)
-						itemstack = this.entity.getHeldItemMainhand();
-					else
-						itemstack = this.entity.getHeldItemOffhand();
-					itemstack.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null).ifPresent(capability -> {
-						this.internal = capability;
-						this.bound = true;
-					});
-				} else if (extraData.readableBytes() > 1) {
-					extraData.readByte(); // drop padding
-					Entity entity = world.getEntityByID(extraData.readVarInt());
-					if (entity != null)
-						entity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null).ifPresent(capability -> {
-							this.internal = capability;
-							this.bound = true;
-						});
-				} else { // might be bound to block
-					TileEntity ent = inv.player != null ? inv.player.world.getTileEntity(pos) : null;
-					if (ent != null) {
-						ent.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null).ifPresent(capability -> {
-							this.internal = capability;
-							this.bound = true;
-						});
-					}
-				}
-			}
-
-			this.customSlots.put(0, this.addSlot(new SlotItemHandler(internal, 0, 76, 23) {
-
-			}));
-
-			int si;
-			int sj;
-
-			for (si = 0; si < 3; ++si)
-				for (sj = 0; sj < 9; ++sj)
-					this.addSlot(new Slot(inv, sj + (si + 1) * 9, 0 + 8 + sj * 18, 0 + 84 + si * 18));
-
-			for (si = 0; si < 9; ++si)
-				this.addSlot(new Slot(inv, si, 0 + 8 + si * 18, 0 + 142));
 
 		}
 
@@ -124,75 +79,6 @@ public class ExtractorGUIGui extends MineonModElements.ModElement {
 		@Override
 		public boolean canInteractWith(PlayerEntity player) {
 			return true;
-		}
-
-		@Override
-		public ItemStack transferStackInSlot(PlayerEntity playerIn, int index) {
-			ItemStack itemstack = ItemStack.EMPTY;
-			Slot slot = (Slot) this.inventorySlots.get(index);
-
-			if (slot != null && slot.getHasStack()) {
-				ItemStack itemstack1 = slot.getStack();
-				itemstack = itemstack1.copy();
-
-				if (index < 1) {
-					if (!this.mergeItemStack(itemstack1, 1, this.inventorySlots.size(), true)) {
-						return ItemStack.EMPTY;
-					}
-					slot.onSlotChange(itemstack1, itemstack);
-				} else if (!this.mergeItemStack(itemstack1, 0, 1, false)) {
-					if (index < 1 + 27) {
-						if (!this.mergeItemStack(itemstack1, 1 + 27, this.inventorySlots.size(), true)) {
-							return ItemStack.EMPTY;
-						}
-					} else {
-						if (!this.mergeItemStack(itemstack1, 1, 1 + 27, false)) {
-							return ItemStack.EMPTY;
-						}
-					}
-					return ItemStack.EMPTY;
-				}
-
-				if (itemstack1.getCount() == 0) {
-					slot.putStack(ItemStack.EMPTY);
-				} else {
-					slot.onSlotChanged();
-				}
-
-				if (itemstack1.getCount() == itemstack.getCount()) {
-					return ItemStack.EMPTY;
-				}
-
-				slot.onTake(playerIn, itemstack1);
-			}
-			return itemstack;
-		}
-
-		@Override /* failed to load code for net.minecraft.inventory.container.Container */
-
-		@Override
-		public void onContainerClosed(PlayerEntity playerIn) {
-			super.onContainerClosed(playerIn);
-
-			if (!bound && (playerIn instanceof ServerPlayerEntity)) {
-				if (!playerIn.isAlive() || playerIn instanceof ServerPlayerEntity && ((ServerPlayerEntity) playerIn).hasDisconnected()) {
-					for (int j = 0; j < internal.getSlots(); ++j) {
-						playerIn.dropItem(internal.extractItem(j, internal.getStackInSlot(j).getCount(), false), false);
-					}
-				} else {
-					for (int i = 0; i < internal.getSlots(); ++i) {
-						playerIn.inventory.placeItemBackInInventory(playerIn.world,
-								internal.extractItem(i, internal.getStackInSlot(i).getCount(), false));
-					}
-				}
-			}
-		}
-
-		private void slotChanged(int slotid, int ctype, int meta) {
-			if (this.world != null && this.world.isRemote) {
-				MineonMod.PACKET_HANDLER.sendToServer(new GUISlotChangedMessage(slotid, x, y, z, ctype, meta));
-				handleSlotAction(entity, slotid, ctype, meta, x, y, z);
-			}
 		}
 
 	}
@@ -215,7 +101,7 @@ public class ExtractorGUIGui extends MineonModElements.ModElement {
 			this.ySize = 166;
 		}
 
-		private static final ResourceLocation texture = new ResourceLocation("mineon:textures/extractor_gui.png");
+		private static final ResourceLocation texture = new ResourceLocation("mineon:textures/cybernetic_enhancement_display.png");
 
 		@Override
 		public void render(int mouseX, int mouseY, float partialTicks) {
@@ -253,15 +139,7 @@ public class ExtractorGUIGui extends MineonModElements.ModElement {
 
 		@Override
 		protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
-			this.font.drawString("Extractor", 62, 4, -12829636);
-			this.font.drawString("Now Extracting:" + (new Object() {
-				public String getValue(BlockPos pos, String tag) {
-					TileEntity tileEntity = world.getTileEntity(pos);
-					if (tileEntity != null)
-						return tileEntity.getTileData().getString(tag);
-					return "";
-				}
-			}.getValue(new BlockPos((int) x, (int) y, (int) z), "Source")) + "", 14, 66, -12829636);
+			this.font.drawString("Upgrades", 68, 7, -16777216);
 		}
 
 		@Override
@@ -276,10 +154,45 @@ public class ExtractorGUIGui extends MineonModElements.ModElement {
 
 			minecraft.keyboardListener.enableRepeatEvents(true);
 
-			this.addButton(new Button(this.guiLeft + 58, this.guiTop + 43, 55, 20, "Change", e -> {
+			this.addButton(new Button(this.guiLeft + 4, this.guiTop + 25, 75, 20, "+ Strength", e -> {
 				MineonMod.PACKET_HANDLER.sendToServer(new ButtonPressedMessage(0, x, y, z));
 
 				handleButtonAction(entity, 0, x, y, z);
+			}));
+			this.addButton(new Button(this.guiLeft + 84, this.guiTop + 25, 85, 20, "+ Resistance", e -> {
+				MineonMod.PACKET_HANDLER.sendToServer(new ButtonPressedMessage(1, x, y, z));
+
+				handleButtonAction(entity, 1, x, y, z);
+			}));
+			this.addButton(new Button(this.guiLeft + 4, this.guiTop + 49, 55, 20, "+ Jump", e -> {
+				MineonMod.PACKET_HANDLER.sendToServer(new ButtonPressedMessage(2, x, y, z));
+
+				handleButtonAction(entity, 2, x, y, z);
+			}));
+			this.addButton(new Button(this.guiLeft + 74, this.guiTop + 49, 95, 20, "+ Night Vision", e -> {
+				MineonMod.PACKET_HANDLER.sendToServer(new ButtonPressedMessage(3, x, y, z));
+
+				handleButtonAction(entity, 3, x, y, z);
+			}));
+			this.addButton(new Button(this.guiLeft + 33, this.guiTop + 74, 110, 20, "+ Fire Resistance", e -> {
+				MineonMod.PACKET_HANDLER.sendToServer(new ButtonPressedMessage(4, x, y, z));
+
+				handleButtonAction(entity, 4, x, y, z);
+			}));
+			this.addButton(new Button(this.guiLeft + 37, this.guiTop + 99, 100, 20, "+ Water Breathing", e -> {
+				MineonMod.PACKET_HANDLER.sendToServer(new ButtonPressedMessage(5, x, y, z));
+
+				handleButtonAction(entity, 5, x, y, z);
+			}));
+			this.addButton(new Button(this.guiLeft + 5, this.guiTop + 124, 95, 20, "+ Regeneration", e -> {
+				MineonMod.PACKET_HANDLER.sendToServer(new ButtonPressedMessage(6, x, y, z));
+
+				handleButtonAction(entity, 6, x, y, z);
+			}));
+			this.addButton(new Button(this.guiLeft + 109, this.guiTop + 124, 60, 20, "+ Speed", e -> {
+				MineonMod.PACKET_HANDLER.sendToServer(new ButtonPressedMessage(7, x, y, z));
+
+				handleButtonAction(entity, 7, x, y, z);
 			}));
 		}
 
@@ -382,18 +295,6 @@ public class ExtractorGUIGui extends MineonModElements.ModElement {
 		if (!world.isBlockLoaded(new BlockPos(x, y, z)))
 			return;
 
-		if (buttonID == 0) {
-			{
-				Map<String, Object> $_dependencies = new HashMap<>();
-
-				$_dependencies.put("x", x);
-				$_dependencies.put("y", y);
-				$_dependencies.put("z", z);
-				$_dependencies.put("world", world);
-
-				ExtractorGUIChangeButtononclikProcedure.executeProcedure($_dependencies);
-			}
-		}
 	}
 
 	private static void handleSlotAction(PlayerEntity entity, int slotID, int changeType, int meta, int x, int y, int z) {

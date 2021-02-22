@@ -1,37 +1,37 @@
 package net.mineon.procedures;
 
 @MineonModElements.ModElement.Tag
-public class AdminMenuKeybindOnKeyPressedProcedure extends MineonModElements.ModElement {
+public class CyberneticModificationDeviceOnBlockRightClickedProcedure extends MineonModElements.ModElement {
 
-	public AdminMenuKeybindOnKeyPressedProcedure(MineonModElements instance) {
-		super(instance, 12);
+	public CyberneticModificationDeviceOnBlockRightClickedProcedure(MineonModElements instance) {
+		super(instance, 17);
 
 	}
 
 	public static void executeProcedure(Map<String, Object> dependencies) {
 		if (dependencies.get("entity") == null) {
 			if (!dependencies.containsKey("entity"))
-				System.err.println("Failed to load dependency entity for procedure AdminMenuKeybindOnKeyPressed!");
+				System.err.println("Failed to load dependency entity for procedure CyberneticModificationDeviceOnBlockRightClicked!");
 			return;
 		}
 		if (dependencies.get("x") == null) {
 			if (!dependencies.containsKey("x"))
-				System.err.println("Failed to load dependency x for procedure AdminMenuKeybindOnKeyPressed!");
+				System.err.println("Failed to load dependency x for procedure CyberneticModificationDeviceOnBlockRightClicked!");
 			return;
 		}
 		if (dependencies.get("y") == null) {
 			if (!dependencies.containsKey("y"))
-				System.err.println("Failed to load dependency y for procedure AdminMenuKeybindOnKeyPressed!");
+				System.err.println("Failed to load dependency y for procedure CyberneticModificationDeviceOnBlockRightClicked!");
 			return;
 		}
 		if (dependencies.get("z") == null) {
 			if (!dependencies.containsKey("z"))
-				System.err.println("Failed to load dependency z for procedure AdminMenuKeybindOnKeyPressed!");
+				System.err.println("Failed to load dependency z for procedure CyberneticModificationDeviceOnBlockRightClicked!");
 			return;
 		}
 		if (dependencies.get("world") == null) {
 			if (!dependencies.containsKey("world"))
-				System.err.println("Failed to load dependency world for procedure AdminMenuKeybindOnKeyPressed!");
+				System.err.println("Failed to load dependency world for procedure CyberneticModificationDeviceOnBlockRightClicked!");
 			return;
 		}
 
@@ -48,12 +48,13 @@ public class AdminMenuKeybindOnKeyPressedProcedure extends MineonModElements.Mod
 				NetworkHooks.openGui((ServerPlayerEntity) _ent, new INamedContainerProvider() {
 					@Override
 					public ITextComponent getDisplayName() {
-						return new StringTextComponent("AdminMenu");
+						return new StringTextComponent("CyberneticModificationDeviceDisplay");
 					}
 
 					@Override
 					public Container createMenu(int id, PlayerInventory inventory, PlayerEntity player) {
-						return new AdminMenuGui.GuiContainerMod(id, inventory, new PacketBuffer(Unpooled.buffer()).writeBlockPos(_bpos));
+						return new CyberneticModificationDeviceDisplayGui.GuiContainerMod(id, inventory,
+								new PacketBuffer(Unpooled.buffer()).writeBlockPos(_bpos));
 					}
 				}, _bpos);
 			}

@@ -4,16 +4,16 @@ package net.mineon.block;
 import net.minecraft.block.material.Material;
 
 @MineonModElements.ModElement.Tag
-public class CyberneticModificationDeviceBlock extends MineonModElements.ModElement {
+public class CyberneticEnhancementDeviceBlock extends MineonModElements.ModElement {
 
-	@ObjectHolder("mineon:cybernetic_modification_device")
+	@ObjectHolder("mineon:cybernetic_enhancement_device")
 	public static final Block block = null;
 
-	@ObjectHolder("mineon:cybernetic_modification_device")
+	@ObjectHolder("mineon:cybernetic_enhancement_device")
 	public static final TileEntityType<CustomTileEntity> tileEntityType = null;
 
-	public CyberneticModificationDeviceBlock(MineonModElements instance) {
-		super(instance, 13);
+	public CyberneticEnhancementDeviceBlock(MineonModElements instance) {
+		super(instance, 21);
 
 		FMLJavaModLoadingContext.get().getModEventBus().register(this);
 	}
@@ -27,7 +27,7 @@ public class CyberneticModificationDeviceBlock extends MineonModElements.ModElem
 	@SubscribeEvent
 	public void registerTileEntity(RegistryEvent.Register<TileEntityType<?>> event) {
 		event.getRegistry()
-				.register(TileEntityType.Builder.create(CustomTileEntity::new, block).build(null).setRegistryName("cybernetic_modification_device"));
+				.register(TileEntityType.Builder.create(CustomTileEntity::new, block).build(null).setRegistryName("cybernetic_enhancement_device"));
 	}
 
 	public static class CustomBlock extends Block {
@@ -37,12 +37,11 @@ public class CyberneticModificationDeviceBlock extends MineonModElements.ModElem
 		public CustomBlock() {
 			super(
 
-					Block.Properties.create(Material.IRON).sound(SoundType.METAL).hardnessAndResistance(10f, 1000f).lightValue(0).harvestLevel(2)
-							.harvestTool(ToolType.PICKAXE));
+					Block.Properties.create(Material.IRON).sound(SoundType.METAL).hardnessAndResistance(10f, 1000f).lightValue(0));
 
 			this.setDefaultState(this.stateContainer.getBaseState().with(FACING, Direction.NORTH));
 
-			setRegistryName("cybernetic_modification_device");
+			setRegistryName("cybernetic_enhancement_device");
 		}
 
 		@OnlyIn(Dist.CLIENT)
@@ -88,17 +87,19 @@ public class CyberneticModificationDeviceBlock extends MineonModElements.ModElem
 			int y = pos.getY();
 			int z = pos.getZ();
 
-			Direction direction = hit.getFace();
-			{
-				Map<String, Object> $_dependencies = new HashMap<>();
+			if (entity instanceof ServerPlayerEntity) {
+				NetworkHooks.openGui((ServerPlayerEntity) entity, new INamedContainerProvider() {
+					@Override
+					public ITextComponent getDisplayName() {
+						return new StringTextComponent("Cybernetic Enhancement Device");
+					}
 
-				$_dependencies.put("entity", entity);
-				$_dependencies.put("x", x);
-				$_dependencies.put("y", y);
-				$_dependencies.put("z", z);
-				$_dependencies.put("world", world);
-
-				CyberneticModificationDeviceOnBlockRightClickedProcedure.executeProcedure($_dependencies);
+					@Override
+					public Container createMenu(int id, PlayerInventory inventory, PlayerEntity player) {
+						return new CyberneticEnhancementDisplayGui.GuiContainerMod(id, inventory,
+								new PacketBuffer(Unpooled.buffer()).writeBlockPos(new BlockPos(x, y, z)));
+					}
+				}, new BlockPos(x, y, z));
 			}
 
 			return ActionResultType.SUCCESS;
@@ -131,7 +132,7 @@ public class CyberneticModificationDeviceBlock extends MineonModElements.ModElem
 
 	public static class CustomTileEntity extends LockableLootTileEntity implements ISidedInventory {
 
-		private NonNullList<ItemStack> stacks = NonNullList.<ItemStack>withSize(9, ItemStack.EMPTY);
+		private NonNullList<ItemStack> stacks = NonNullList.<ItemStack>withSize(0, ItemStack.EMPTY);
 
 		protected CustomTileEntity() {
 			super(tileEntityType);
@@ -190,7 +191,7 @@ public class CyberneticModificationDeviceBlock extends MineonModElements.ModElem
 
 		@Override
 		public ITextComponent getDefaultName() {
-			return new StringTextComponent("cybernetic_modification_device");
+			return new StringTextComponent("cybernetic_enhancement_device");
 		}
 
 		@Override
@@ -200,12 +201,12 @@ public class CyberneticModificationDeviceBlock extends MineonModElements.ModElem
 
 		@Override
 		public Container createMenu(int id, PlayerInventory player) {
-			return ChestContainer.createGeneric9X3(id, player, this);
+			return new CyberneticEnhancementDisplayGui.GuiContainerMod(id, player, new PacketBuffer(Unpooled.buffer()).writeBlockPos(this.getPos()));
 		}
 
 		@Override
 		public ITextComponent getDisplayName() {
-			return new StringTextComponent("Cybernetic Modification Device");
+			return new StringTextComponent("Cybernetic Enhancement Device");
 		}
 
 		@Override

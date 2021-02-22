@@ -109,7 +109,7 @@ public class CyberneticModificationDeviceDisplayGui extends MineonModElements.Mo
 			this.y = container.y;
 			this.z = container.z;
 			this.entity = container.entity;
-			this.xSize = 116;
+			this.xSize = 118;
 			this.ySize = 26;
 		}
 		private static final ResourceLocation texture = new ResourceLocation("mineon:textures/cybernetic_modification_device_display.png");
@@ -157,7 +157,7 @@ public class CyberneticModificationDeviceDisplayGui extends MineonModElements.Mo
 		public void init(Minecraft minecraft, int width, int height) {
 			super.init(minecraft, width, height);
 			minecraft.keyboardListener.enableRepeatEvents(true);
-			this.addButton(new Button(this.guiLeft + 1, this.guiTop + 2, 110, 20, "Become Cybernetic", e -> {
+			this.addButton(new Button(this.guiLeft + 3, this.guiTop + 2, 110, 20, "Become Cybernetic", e -> {
 				MineonMod.PACKET_HANDLER.sendToServer(new ButtonPressedMessage(0, x, y, z));
 				handleButtonAction(entity, 0, x, y, z);
 			}));

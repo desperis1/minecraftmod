@@ -1,7 +1,27 @@
 {
   "variants": {
-    "": {
+    "facing=north": {
       "model": "mineon:block/cybernetic_enhancement_device"
+    },
+    "facing=east": {
+      "model": "mineon:block/cybernetic_enhancement_device",
+      "y": 90
+    },
+    "facing=south": {
+      "model": "mineon:block/cybernetic_enhancement_device",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "mineon:block/cybernetic_enhancement_device",
+      "y": 270
+    },
+    "facing=up": {
+      "model": "mineon:block/cybernetic_enhancement_device",
+      "x": 270
+    },
+    "facing=down": {
+      "model": "mineon:block/cybernetic_enhancement_device",
+      "x": 90
     }
   }
 }

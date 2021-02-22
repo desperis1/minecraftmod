@@ -3,7 +3,7 @@
   "_type": "gui",
   "definition": {
     "type": 0,
-    "width": 116,
+    "width": 118,
     "height": 26,
     "inventoryOffsetX": 0,
     "inventoryOffsetY": 0,
@@ -20,7 +20,7 @@
           "width": 110,
           "height": 20,
           "name": "Become Cybernetic",
-          "x": 157,
+          "x": 158,
           "y": 109
         }
       }

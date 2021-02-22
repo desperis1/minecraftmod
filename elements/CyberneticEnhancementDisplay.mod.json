@@ -11,17 +11,6 @@
     "doesPauseGame": false,
     "components": [
       {
-        "type": "button",
-        "data": {
-          "text": "+ Strength",
-          "width": 75,
-          "height": 20,
-          "name": "+ Strength",
-          "x": 130,
-          "y": 62
-        }
-      },
-      {
         "type": "label",
         "data": {
           "text": "Upgrades",
@@ -32,6 +21,17 @@
           "name": "Upgrades",
           "x": 194,
           "y": 44
+        }
+      },
+      {
+        "type": "button",
+        "data": {
+          "text": "+ Strength",
+          "width": 75,
+          "height": 20,
+          "name": "+ Strength",
+          "x": 130,
+          "y": 62
         }
       },
       {

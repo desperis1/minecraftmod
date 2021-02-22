@@ -74,6 +74,15 @@
       "registry_name": "orange_neon"
     },
     {
+      "name": "GrapplingHook",
+      "type": "item",
+      "sortid": 9,
+      "compiles": true,
+      "locked_code": false,
+      "ids": {},
+      "registry_name": "grappling_hook"
+    },
+    {
       "name": "GrapplingHookRightClickedInAir",
       "type": "procedure",
       "sortid": 9,
@@ -107,13 +116,89 @@
       }
     },
     {
-      "name": "GrapplingHook",
-      "type": "item",
+      "name": "AdminMenuSurvivalCreativeButtonclick",
+      "type": "procedure",
+      "sortid": 10,
+      "compiles": true,
+      "locked_code": false,
+      "ids": {},
+      "registry_name": "admin_menu_survival_creative_buttonclick",
+      "metadata": {
+        "dependencies": [
+          {
+            "name": "entity",
+            "type": "entity"
+          }
+        ]
+      }
+    },
+    {
+      "name": "AdminMenu",
+      "type": "gui",
       "sortid": 9,
       "compiles": true,
       "locked_code": false,
       "ids": {},
-      "registry_name": "grappling_hook"
+      "registry_name": "admin_menu"
+    },
+    {
+      "name": "AdminMenuDayNightbuttononclick",
+      "type": "procedure",
+      "sortid": 11,
+      "compiles": true,
+      "locked_code": false,
+      "ids": {},
+      "registry_name": "admin_menu_day_nightbuttononclick",
+      "metadata": {
+        "dependencies": [
+          {
+            "name": "world",
+            "type": "world"
+          }
+        ]
+      }
+    },
+    {
+      "name": "AdminMenuKeybind",
+      "type": "keybind",
+      "sortid": 12,
+      "compiles": true,
+      "locked_code": false,
+      "ids": {},
+      "registry_name": "admin_menu_keybind"
+    },
+    {
+      "name": "AdminMenuKeybindOnKeyPressed",
+      "type": "procedure",
+      "sortid": 12,
+      "compiles": true,
+      "locked_code": false,
+      "ids": {},
+      "registry_name": "admin_menu_keybind_on_key_pressed",
+      "metadata": {
+        "dependencies": [
+          {
+            "name": "entity",
+            "type": "entity"
+          },
+          {
+            "name": "x",
+            "type": "number"
+          },
+          {
+            "name": "y",
+            "type": "number"
+          },
+          {
+            "name": "z",
+            "type": "number"
+          },
+          {
+            "name": "world",
+            "type": "world"
+          }
+        ]
+      }
     }
   ],
   "variable_elements": [],
@@ -128,6 +213,7 @@
       "block.mineon.orange_neon": "White Neon",
       "block.mineon.pink_neon": "White Neon",
       "itemGroup.tabmineon": "Mineon",
+      "key.mcreator.admin_menu_keybind": "Admin Menu",
       "item.mineon.grappling_hook": "Grappling Hook"
     }
   },

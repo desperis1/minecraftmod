@@ -1,0 +1,43 @@
+{
+  "_fv": 13,
+  "_type": "gui",
+  "definition": {
+    "type": 0,
+    "width": 176,
+    "height": 166,
+    "inventoryOffsetX": 0,
+    "inventoryOffsetY": 0,
+    "renderBgLayer": true,
+    "doesPauseGame": false,
+    "components": [
+      {
+        "type": "button",
+        "data": {
+          "text": "Creative/Survival",
+          "onClick": {
+            "name": "AdminMenuSurvivalCreativeButtonclick"
+          },
+          "width": 110,
+          "height": 20,
+          "name": "Creative/Survival",
+          "x": 158,
+          "y": 55
+        }
+      },
+      {
+        "type": "button",
+        "data": {
+          "text": "Day/Night",
+          "onClick": {
+            "name": "AdminMenuDayNightbuttononclick"
+          },
+          "width": 70,
+          "height": 20,
+          "name": "Day/Night",
+          "x": 177,
+          "y": 84
+        }
+      }
+    ]
+  }
+}

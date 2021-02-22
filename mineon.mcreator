@@ -18,13 +18,73 @@
       "locked_code": false,
       "ids": {},
       "registry_name": "mineon"
+    },
+    {
+      "name": "RedNeon",
+      "type": "block",
+      "sortid": 3,
+      "compiles": true,
+      "locked_code": false,
+      "ids": {},
+      "registry_name": "red_neon"
+    },
+    {
+      "name": "GreenNeon",
+      "type": "block",
+      "sortid": 4,
+      "compiles": true,
+      "locked_code": false,
+      "ids": {},
+      "registry_name": "green_neon"
+    },
+    {
+      "name": "BlueNeon",
+      "type": "block",
+      "sortid": 5,
+      "compiles": true,
+      "locked_code": false,
+      "ids": {},
+      "registry_name": "blue_neon"
+    },
+    {
+      "name": "YellowNeon",
+      "type": "block",
+      "sortid": 6,
+      "compiles": true,
+      "locked_code": false,
+      "ids": {},
+      "registry_name": "yellow_neon"
+    },
+    {
+      "name": "PinkNeon",
+      "type": "block",
+      "sortid": 7,
+      "compiles": true,
+      "locked_code": false,
+      "ids": {},
+      "registry_name": "pink_neon"
+    },
+    {
+      "name": "OrangeNeon",
+      "type": "block",
+      "sortid": 8,
+      "compiles": true,
+      "locked_code": false,
+      "ids": {},
+      "registry_name": "orange_neon"
     }
   ],
   "variable_elements": [],
   "sound_elements": [],
   "language_map": {
     "en_us": {
+      "block.mineon.blue_neon": "White Neon",
+      "block.mineon.red_neon": "White Neon",
+      "block.mineon.yellow_neon": "White Neon",
+      "block.mineon.green_neon": "White Neon",
       "block.mineon.white_neon": "White Neon",
+      "block.mineon.orange_neon": "White Neon",
+      "block.mineon.pink_neon": "White Neon",
       "itemGroup.tabmineon": "Mineon"
     }
   },

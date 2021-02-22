@@ -1,4 +1,10 @@
 {
+  "block.mineon.blue_neon": "White Neon",
+  "block.mineon.red_neon": "White Neon",
+  "block.mineon.yellow_neon": "White Neon",
+  "block.mineon.green_neon": "White Neon",
   "block.mineon.white_neon": "White Neon",
+  "block.mineon.orange_neon": "White Neon",
+  "block.mineon.pink_neon": "White Neon",
   "itemGroup.tabmineon": "Mineon"
 }

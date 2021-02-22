@@ -21,11 +21,11 @@ import java.util.List;
 import java.util.Collections;
 
 @MineonModElements.ModElement.Tag
-public class WhiteNeonBlock extends MineonModElements.ModElement {
-	@ObjectHolder("mineon:white_neon")
+public class BlueNeonBlock extends MineonModElements.ModElement {
+	@ObjectHolder("mineon:blue_neon")
 	public static final Block block = null;
-	public WhiteNeonBlock(MineonModElements instance) {
-		super(instance, 1);
+	public BlueNeonBlock(MineonModElements instance) {
+		super(instance, 5);
 	}
 
 	@Override
@@ -36,7 +36,7 @@ public class WhiteNeonBlock extends MineonModElements.ModElement {
 	public static class CustomBlock extends Block {
 		public CustomBlock() {
 			super(Block.Properties.create(Material.GLASS).sound(SoundType.GLASS).hardnessAndResistance(1f, 10f).lightValue(15));
-			setRegistryName("white_neon");
+			setRegistryName("blue_neon");
 		}
 
 		@OnlyIn(Dist.CLIENT)

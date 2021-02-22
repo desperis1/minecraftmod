@@ -1,0 +1,12 @@
+{
+  "parent": "block/cube",
+  "textures": {
+    "down": "mineon:blocks/blue_neon",
+    "up": "mineon:blocks/blue_neon",
+    "north": "mineon:blocks/blue_neon",
+    "east": "mineon:blocks/blue_neon",
+    "south": "mineon:blocks/blue_neon",
+    "west": "mineon:blocks/blue_neon",
+    "particle": "mineon:blocks/blue_neon"
+  }
+}

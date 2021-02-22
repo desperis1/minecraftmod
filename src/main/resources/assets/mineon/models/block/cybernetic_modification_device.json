@@ -1,0 +1,12 @@
+{
+  "parent": "block/cube",
+  "textures": {
+    "down": "mineon:blocks/cybernetic_modification_device_main",
+    "up": "mineon:blocks/cybernetic_modification_device_main",
+    "north": "mineon:blocks/cybernetic_modification_device",
+    "east": "mineon:blocks/cybernetic_modification_device_main",
+    "south": "mineon:blocks/cybernetic_modification_device_main",
+    "west": "mineon:blocks/cybernetic_modification_device_main",
+    "particle": "mineon:blocks/cybernetic_modification_device_main"
+  }
+}

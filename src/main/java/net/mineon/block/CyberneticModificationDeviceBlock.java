@@ -4,16 +4,16 @@ package net.mineon.block;
 import net.minecraft.block.material.Material;
 
 @MineonModElements.ModElement.Tag
-public class FusionMachineBlock extends MineonModElements.ModElement {
+public class CyberneticModificationDeviceBlock extends MineonModElements.ModElement {
 
-	@ObjectHolder("mineon:fusion_machine")
+	@ObjectHolder("mineon:cybernetic_modification_device")
 	public static final Block block = null;
 
-	@ObjectHolder("mineon:fusion_machine")
+	@ObjectHolder("mineon:cybernetic_modification_device")
 	public static final TileEntityType<CustomTileEntity> tileEntityType = null;
 
-	public FusionMachineBlock(MineonModElements instance) {
-		super(instance, 14);
+	public CyberneticModificationDeviceBlock(MineonModElements instance) {
+		super(instance, 13);
 
 		FMLJavaModLoadingContext.get().getModEventBus().register(this);
 	}
@@ -26,26 +26,29 @@ public class FusionMachineBlock extends MineonModElements.ModElement {
 
 	@SubscribeEvent
 	public void registerTileEntity(RegistryEvent.Register<TileEntityType<?>> event) {
-		event.getRegistry().register(TileEntityType.Builder.create(CustomTileEntity::new, block).build(null).setRegistryName("fusion_machine"));
+		event.getRegistry()
+				.register(TileEntityType.Builder.create(CustomTileEntity::new, block).build(null).setRegistryName("cybernetic_modification_device"));
 	}
 
 	public static class CustomBlock extends Block {
 
-		public static final DirectionProperty FACING = HorizontalBlock.HORIZONTAL_FACING;
+		public static final DirectionProperty FACING = DirectionalBlock.FACING;
 
 		public CustomBlock() {
 			super(
 
-					Block.Properties.create(Material.IRON).sound(SoundType.METAL).hardnessAndResistance(1f, 10f).lightValue(0));
+					Block.Properties.create(Material.IRON).sound(SoundType.METAL).hardnessAndResistance(10f, 1000f).lightValue(0).harvestLevel(2)
+							.harvestTool(ToolType.PICKAXE));
 
 			this.setDefaultState(this.stateContainer.getBaseState().with(FACING, Direction.NORTH));
 
-			setRegistryName("fusion_machine");
+			setRegistryName("cybernetic_modification_device");
 		}
 
+		@OnlyIn(Dist.CLIENT)
 		@Override
-		public int tickRate(IWorldReader world) {
-			return 20;
+		public boolean isEmissiveRendering(BlockState blockState) {
+			return true;
 		}
 
 		@Override
@@ -64,7 +67,7 @@ public class FusionMachineBlock extends MineonModElements.ModElement {
 		@Override
 		public BlockState getStateForPlacement(BlockItemUseContext context) {
 			;
-			return this.getDefaultState().with(FACING, context.getPlacementHorizontalFacing().getOpposite());
+			return this.getDefaultState().with(FACING, context.getNearestLookingDirection().getOpposite());
 		}
 
 		@Override
@@ -74,33 +77,6 @@ public class FusionMachineBlock extends MineonModElements.ModElement {
 			if (!dropsOriginal.isEmpty())
 				return dropsOriginal;
 			return Collections.singletonList(new ItemStack(this, 1));
-		}
-
-		@Override
-		public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity entity, Hand hand,
-				BlockRayTraceResult hit) {
-			super.onBlockActivated(state, world, pos, entity, hand, hit);
-
-			int x = pos.getX();
-			int y = pos.getY();
-			int z = pos.getZ();
-
-			if (entity instanceof ServerPlayerEntity) {
-				NetworkHooks.openGui((ServerPlayerEntity) entity, new INamedContainerProvider() {
-					@Override
-					public ITextComponent getDisplayName() {
-						return new StringTextComponent("Fusion Machine");
-					}
-
-					@Override
-					public Container createMenu(int id, PlayerInventory inventory, PlayerEntity player) {
-						return new FusionMacineGUIGui.GuiContainerMod(id, inventory,
-								new PacketBuffer(Unpooled.buffer()).writeBlockPos(new BlockPos(x, y, z)));
-					}
-				}, new BlockPos(x, y, z));
-			}
-
-			return ActionResultType.SUCCESS;
 		}
 
 		@Override
@@ -126,38 +102,11 @@ public class FusionMachineBlock extends MineonModElements.ModElement {
 			return tileentity == null ? false : tileentity.receiveClientEvent(eventID, eventParam);
 		}
 
-		@Override
-		public void onReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean isMoving) {
-			if (state.getBlock() != newState.getBlock()) {
-				TileEntity tileentity = world.getTileEntity(pos);
-				if (tileentity instanceof CustomTileEntity) {
-					InventoryHelper.dropInventoryItems(world, pos, (CustomTileEntity) tileentity);
-					world.updateComparatorOutputLevel(pos, this);
-				}
-
-				super.onReplaced(state, world, pos, newState, isMoving);
-			}
-		}
-
-		@Override
-		public boolean hasComparatorInputOverride(BlockState state) {
-			return true;
-		}
-
-		@Override
-		public int getComparatorInputOverride(BlockState blockState, World world, BlockPos pos) {
-			TileEntity tileentity = world.getTileEntity(pos);
-			if (tileentity instanceof CustomTileEntity)
-				return Container.calcRedstoneFromInventory((CustomTileEntity) tileentity);
-			else
-				return 0;
-		}
-
 	}
 
 	public static class CustomTileEntity extends LockableLootTileEntity implements ISidedInventory {
 
-		private NonNullList<ItemStack> stacks = NonNullList.<ItemStack>withSize(3, ItemStack.EMPTY);
+		private NonNullList<ItemStack> stacks = NonNullList.<ItemStack>withSize(9, ItemStack.EMPTY);
 
 		protected CustomTileEntity() {
 			super(tileEntityType);
@@ -216,7 +165,7 @@ public class FusionMachineBlock extends MineonModElements.ModElement {
 
 		@Override
 		public ITextComponent getDefaultName() {
-			return new StringTextComponent("fusion_machine");
+			return new StringTextComponent("cybernetic_modification_device");
 		}
 
 		@Override
@@ -226,12 +175,12 @@ public class FusionMachineBlock extends MineonModElements.ModElement {
 
 		@Override
 		public Container createMenu(int id, PlayerInventory player) {
-			return new FusionMacineGUIGui.GuiContainerMod(id, player, new PacketBuffer(Unpooled.buffer()).writeBlockPos(this.getPos()));
+			return ChestContainer.createGeneric9X3(id, player, this);
 		}
 
 		@Override
 		public ITextComponent getDisplayName() {
-			return new StringTextComponent("Fusion Machine");
+			return new StringTextComponent("Cybernetic Modification Device");
 		}
 
 		@Override
@@ -246,8 +195,6 @@ public class FusionMachineBlock extends MineonModElements.ModElement {
 
 		@Override
 		public boolean isItemValidForSlot(int index, ItemStack stack) {
-			if (index == 2)
-				return false;
 			return true;
 		}
 
@@ -263,10 +210,6 @@ public class FusionMachineBlock extends MineonModElements.ModElement {
 
 		@Override
 		public boolean canExtractItem(int index, ItemStack stack, Direction direction) {
-			if (index == 0)
-				return false;
-			if (index == 1)
-				return false;
 			return true;
 		}
 

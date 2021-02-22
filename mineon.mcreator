@@ -201,13 +201,13 @@
       }
     },
     {
-      "name": "GasCanister",
-      "type": "tool",
-      "sortid": 13,
+      "name": "FusionMacineGUI",
+      "type": "gui",
+      "sortid": 15,
       "compiles": true,
       "locked_code": false,
       "ids": {},
-      "registry_name": "gas_canister"
+      "registry_name": "fusion_macine_gui"
     },
     {
       "name": "FusionMachine",
@@ -219,16 +219,32 @@
       "registry_name": "fusion_machine"
     },
     {
-      "name": "FusionMacineGUI",
-      "type": "gui",
-      "sortid": 15,
+      "name": "GasCanister",
+      "type": "tool",
+      "sortid": 13,
       "compiles": true,
       "locked_code": false,
       "ids": {},
-      "registry_name": "fusion_macine_gui"
+      "registry_name": "gas_canister"
+    },
+    {
+      "name": "CyberneticModificationDevice",
+      "type": "block",
+      "sortid": 13,
+      "compiles": true,
+      "locked_code": false,
+      "ids": {},
+      "registry_name": "cybernetic_modification_device"
     }
   ],
-  "variable_elements": [],
+  "variable_elements": [
+    {
+      "name": "isCybernetic",
+      "type": "logic",
+      "scope": "player_persistent",
+      "value": "false"
+    }
+  ],
   "sound_elements": [],
   "language_map": {
     "en_us": {
@@ -236,8 +252,6 @@
       "itemGroup.tabmineon": "Mineon",
       "key.mcreator.admin_menu_keybind": "Admin Menu",
       "item.mineon.grappling_hook": "Grappling Hook",
-      "item.mineon.gas_canister": "Gas Canister",
-      "block.mineon.fusion_machine": "Fusion Machine",
       "block.mineon.blue_neon": "White Neon",
       "block.mineon.red_neon": "White Neon",
       "block.mineon.yellow_neon": "White Neon",
@@ -259,7 +273,6 @@
     "dependants": [],
     "mcreatorDependencies": [],
     "currentGenerator": "forge-1.15.2",
-    "credits": "Created using mod maker MCreator - https://mcreator.net/about",
     "modElementsPackage": "net.mineon",
     "lockBaseModFiles": false
   },

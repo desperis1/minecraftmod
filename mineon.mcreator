@@ -9,13 +9,23 @@
       "locked_code": false,
       "ids": {},
       "registry_name": "white_neon"
+    },
+    {
+      "name": "Mineon",
+      "type": "tab",
+      "sortid": 2,
+      "compiles": true,
+      "locked_code": false,
+      "ids": {},
+      "registry_name": "mineon"
     }
   ],
   "variable_elements": [],
   "sound_elements": [],
   "language_map": {
     "en_us": {
-      "block.mineon.white_neon": "White Neon"
+      "block.mineon.white_neon": "White Neon",
+      "itemGroup.tabmineon": "Mineon"
     }
   },
   "workspaceSettings": {

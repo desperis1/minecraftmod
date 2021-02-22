@@ -97,6 +97,10 @@
             "type": "entity"
           },
           {
+            "name": "itemstack",
+            "type": "itemstack"
+          },
+          {
             "name": "x",
             "type": "number"
           },
@@ -199,9 +203,25 @@
           }
         ]
       }
+    },
+    {
+      "name": "CyberneticModificationDevice",
+      "type": "block",
+      "sortid": 13,
+      "compiles": true,
+      "locked_code": false,
+      "ids": {},
+      "registry_name": "cybernetic_modification_device"
     }
   ],
-  "variable_elements": [],
+  "variable_elements": [
+    {
+      "name": "isCybernetic",
+      "type": "logic",
+      "scope": "player_persistent",
+      "value": "false"
+    }
+  ],
   "sound_elements": [],
   "language_map": {
     "en_us": {
@@ -214,6 +234,7 @@
       "block.mineon.pink_neon": "White Neon",
       "itemGroup.tabmineon": "Mineon",
       "key.mcreator.admin_menu_keybind": "Admin Menu",
+      "block.mineon.cybernetic_modification_device": "Cybernetic Modification Device",
       "item.mineon.grappling_hook": "Grappling Hook"
     }
   },

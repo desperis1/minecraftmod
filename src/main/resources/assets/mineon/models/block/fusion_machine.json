@@ -1,0 +1,12 @@
+{
+  "parent": "block/cube",
+  "textures": {
+    "down": "mineon:blocks/fusion_machine_side",
+    "up": "mineon:blocks/fusion_machine_side",
+    "north": "mineon:blocks/fusion_machine_front",
+    "east": "mineon:blocks/fusion_machine_side",
+    "south": "mineon:blocks/fusion_machine_side",
+    "west": "mineon:blocks/fusion_machine_side",
+    "particle": "mineon:blocks/fusion_machine_side"
+  }
+}

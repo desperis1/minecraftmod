@@ -1,0 +1,6 @@
+{
+  "parent": "item/handheld",
+  "textures": {
+    "layer0": "mineon:items/gas_canister_empty"
+  }
+}

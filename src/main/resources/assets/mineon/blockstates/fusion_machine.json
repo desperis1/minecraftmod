@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "mineon:block/fusion_machine"
+    },
+    "facing=east": {
+      "model": "mineon:block/fusion_machine",
+      "y": 90
+    },
+    "facing=south": {
+      "model": "mineon:block/fusion_machine",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "mineon:block/fusion_machine",
+      "y": 270
+    }
+  }
+}

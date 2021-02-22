@@ -1,12 +1,15 @@
 {
+  "block.mineon.orange_neon": "White Neon",
+  "itemGroup.tabmineon": "Mineon",
+  "key.mcreator.admin_menu_keybind": "Admin Menu",
+  "item.mineon.grappling_hook": "Grappling Hook",
+  "item.mineon.gas_canister": "Gas Canister",
+  "block.mineon.fusion_machine": "Fusion Machine",
   "block.mineon.blue_neon": "White Neon",
   "block.mineon.red_neon": "White Neon",
   "block.mineon.yellow_neon": "White Neon",
   "block.mineon.green_neon": "White Neon",
-  "block.mineon.orange_neon": "White Neon",
   "block.mineon.white_neon": "White Neon",
   "block.mineon.pink_neon": "White Neon",
-  "itemGroup.tabmineon": "Mineon",
-  "key.mcreator.admin_menu_keybind": "Admin Menu",
-  "item.mineon.grappling_hook": "Grappling Hook"
+  "block.mineon.cybernetic_modification_device": "Cybernetic Modification Device"
 }

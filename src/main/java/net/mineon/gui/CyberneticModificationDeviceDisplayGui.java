@@ -3,10 +3,10 @@ package net.mineon.gui;
 
 import org.lwjgl.opengl.GL11;
 
+import net.mineon.procedures.OnCyberneticsAcceptedProcedure;
 import net.mineon.MineonModElements;
 import net.mineon.MineonMod;
 
-import net.minecraftforge.items.SlotItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.CapabilityItemHandler;
@@ -33,6 +33,8 @@ import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.Entity;
+import net.minecraft.client.gui.widget.button.Button;
+import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.client.gui.ScreenManager;
 import net.minecraft.client.Minecraft;
@@ -42,11 +44,11 @@ import java.util.Map;
 import java.util.HashMap;
 
 @MineonModElements.ModElement.Tag
-public class FusionMacineGUIGui extends MineonModElements.ModElement {
+public class CyberneticModificationDeviceDisplayGui extends MineonModElements.ModElement {
 	public static HashMap guistate = new HashMap();
 	private static ContainerType<GuiContainerMod> containerType = null;
-	public FusionMacineGUIGui(MineonModElements instance) {
-		super(instance, 15);
+	public CyberneticModificationDeviceDisplayGui(MineonModElements instance) {
+		super(instance, 16);
 		elements.addNetworkMessage(ButtonPressedMessage.class, ButtonPressedMessage::buffer, ButtonPressedMessage::new,
 				ButtonPressedMessage::handler);
 		elements.addNetworkMessage(GUISlotChangedMessage.class, GUISlotChangedMessage::buffer, GUISlotChangedMessage::new,
@@ -62,7 +64,7 @@ public class FusionMacineGUIGui extends MineonModElements.ModElement {
 
 	@SubscribeEvent
 	public void registerContainer(RegistryEvent.Register<ContainerType<?>> event) {
-		event.getRegistry().register(containerType.setRegistryName("fusion_macine_gui"));
+		event.getRegistry().register(containerType.setRegistryName("cybernetic_modification_device_display"));
 	}
 	public static class GuiContainerModFactory implements IContainerFactory {
 		public GuiContainerMod create(int id, PlayerInventory inv, PacketBuffer extraData) {
@@ -81,7 +83,7 @@ public class FusionMacineGUIGui extends MineonModElements.ModElement {
 			super(containerType, id);
 			this.entity = inv.player;
 			this.world = inv.player.world;
-			this.internal = new ItemStackHandler(3);
+			this.internal = new ItemStackHandler(0);
 			BlockPos pos = null;
 			if (extraData != null) {
 				pos = extraData.readBlockPos();
@@ -119,16 +121,6 @@ public class FusionMacineGUIGui extends MineonModElements.ModElement {
 					}
 				}
 			}
-			this.customSlots.put(0, this.addSlot(new SlotItemHandler(internal, 0, 52, 26) {
-			}));
-			this.customSlots.put(1, this.addSlot(new SlotItemHandler(internal, 1, 106, 26) {
-			}));
-			this.customSlots.put(2, this.addSlot(new SlotItemHandler(internal, 2, 79, 53) {
-				@Override
-				public boolean isItemValid(ItemStack stack) {
-					return false;
-				}
-			}));
 			int si;
 			int sj;
 			for (si = 0; si < 3; ++si)
@@ -154,18 +146,18 @@ public class FusionMacineGUIGui extends MineonModElements.ModElement {
 			if (slot != null && slot.getHasStack()) {
 				ItemStack itemstack1 = slot.getStack();
 				itemstack = itemstack1.copy();
-				if (index < 3) {
-					if (!this.mergeItemStack(itemstack1, 3, this.inventorySlots.size(), true)) {
+				if (index < 0) {
+					if (!this.mergeItemStack(itemstack1, 0, this.inventorySlots.size(), true)) {
 						return ItemStack.EMPTY;
 					}
 					slot.onSlotChange(itemstack1, itemstack);
-				} else if (!this.mergeItemStack(itemstack1, 0, 3, false)) {
-					if (index < 3 + 27) {
-						if (!this.mergeItemStack(itemstack1, 3 + 27, this.inventorySlots.size(), true)) {
+				} else if (!this.mergeItemStack(itemstack1, 0, 0, false)) {
+					if (index < 0 + 27) {
+						if (!this.mergeItemStack(itemstack1, 0 + 27, this.inventorySlots.size(), true)) {
 							return ItemStack.EMPTY;
 						}
 					} else {
-						if (!this.mergeItemStack(itemstack1, 3, 3 + 27, false)) {
+						if (!this.mergeItemStack(itemstack1, 0, 0 + 27, false)) {
 							return ItemStack.EMPTY;
 						}
 					}
@@ -295,6 +287,7 @@ public class FusionMacineGUIGui extends MineonModElements.ModElement {
 		private World world;
 		private int x, y, z;
 		private PlayerEntity entity;
+		TextFieldWidget CyberneticDescription;
 		public GuiWindow(GuiContainerMod container, PlayerInventory inventory, ITextComponent text) {
 			super(container, inventory, text);
 			this.world = container.world;
@@ -305,12 +298,13 @@ public class FusionMacineGUIGui extends MineonModElements.ModElement {
 			this.xSize = 176;
 			this.ySize = 166;
 		}
-		private static final ResourceLocation texture = new ResourceLocation("mineon:textures/fusion_macine_gui.png");
+		private static final ResourceLocation texture = new ResourceLocation("mineon:textures/cybernetic_modification_device_display.png");
 		@Override
 		public void render(int mouseX, int mouseY, float partialTicks) {
 			this.renderBackground();
 			super.render(mouseX, mouseY, partialTicks);
 			this.renderHoveredToolTip(mouseX, mouseY);
+			CyberneticDescription.render(mouseX, mouseY, partialTicks);
 		}
 
 		@Override
@@ -328,17 +322,19 @@ public class FusionMacineGUIGui extends MineonModElements.ModElement {
 				this.minecraft.player.closeScreen();
 				return true;
 			}
+			if (CyberneticDescription.isFocused())
+				return CyberneticDescription.keyPressed(key, b, c);
 			return super.keyPressed(key, b, c);
 		}
 
 		@Override
 		public void tick() {
 			super.tick();
+			CyberneticDescription.tick();
 		}
 
 		@Override
 		protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
-			this.font.drawString("Fusion Machine", 51, 7, -12829636);
 		}
 
 		@Override
@@ -351,6 +347,39 @@ public class FusionMacineGUIGui extends MineonModElements.ModElement {
 		public void init(Minecraft minecraft, int width, int height) {
 			super.init(minecraft, width, height);
 			minecraft.keyboardListener.enableRepeatEvents(true);
+			this.addButton(new Button(this.guiLeft + 32, this.guiTop + 11, 110, 20, "Become Cybernetic", e -> {
+				MineonMod.PACKET_HANDLER.sendToServer(new ButtonPressedMessage(0, x, y, z));
+				handleButtonAction(entity, 0, x, y, z);
+			}));
+			CyberneticDescription = new TextFieldWidget(this.font, this.guiLeft + 27, this.guiTop + 36, 120, 20,
+					"§cBy pressing this, you agree to dedicate your soul to being a robot forever. THIS CANNOT BE REVERSED. Choose wisely.") {
+				{
+					setSuggestion(
+							"§cBy pressing this, you agree to dedicate your soul to being a robot forever. THIS CANNOT BE REVERSED. Choose wisely.");
+				}
+				@Override
+				public void writeText(String text) {
+					super.writeText(text);
+					if (getText().isEmpty())
+						setSuggestion(
+								"§cBy pressing this, you agree to dedicate your soul to being a robot forever. THIS CANNOT BE REVERSED. Choose wisely.");
+					else
+						setSuggestion(null);
+				}
+
+				@Override
+				public void setCursorPosition(int pos) {
+					super.setCursorPosition(pos);
+					if (getText().isEmpty())
+						setSuggestion(
+								"§cBy pressing this, you agree to dedicate your soul to being a robot forever. THIS CANNOT BE REVERSED. Choose wisely.");
+					else
+						setSuggestion(null);
+				}
+			};
+			guistate.put("text:CyberneticDescription", CyberneticDescription);
+			CyberneticDescription.setMaxStringLength(32767);
+			this.children.add(this.CyberneticDescription);
 		}
 	}
 
@@ -440,6 +469,13 @@ public class FusionMacineGUIGui extends MineonModElements.ModElement {
 		// security measure to prevent arbitrary chunk generation
 		if (!world.isBlockLoaded(new BlockPos(x, y, z)))
 			return;
+		if (buttonID == 0) {
+			{
+				Map<String, Object> $_dependencies = new HashMap<>();
+				$_dependencies.put("entity", entity);
+				OnCyberneticsAcceptedProcedure.executeProcedure($_dependencies);
+			}
+		}
 	}
 
 	private static void handleSlotAction(PlayerEntity entity, int slotID, int changeType, int meta, int x, int y, int z) {

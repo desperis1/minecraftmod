@@ -1,11 +1,20 @@
 package net.mineon.procedures;
 
+import net.mineon.MineonModElements;
+
+import net.minecraft.world.IWorld;
+import net.minecraft.util.math.RayTraceContext;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.item.ItemStack;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.Entity;
+
+import java.util.Map;
+
 @MineonModElements.ModElement.Tag
 public class GrapplingHookRightClickedInAirProcedure extends MineonModElements.ModElement {
-
 	public GrapplingHookRightClickedInAirProcedure(MineonModElements instance) {
 		super(instance, 9);
-
 	}
 
 	public static void executeProcedure(Map<String, Object> dependencies) {
@@ -39,14 +48,12 @@ public class GrapplingHookRightClickedInAirProcedure extends MineonModElements.M
 				System.err.println("Failed to load dependency world for procedure GrapplingHookRightClickedInAir!");
 			return;
 		}
-
 		Entity entity = (Entity) dependencies.get("entity");
 		ItemStack itemstack = (ItemStack) dependencies.get("itemstack");
 		double x = dependencies.get("x") instanceof Integer ? (int) dependencies.get("x") : (double) dependencies.get("x");
 		double y = dependencies.get("y") instanceof Integer ? (int) dependencies.get("y") : (double) dependencies.get("y");
 		double z = dependencies.get("z") instanceof Integer ? (int) dependencies.get("z") : (double) dependencies.get("z");
 		IWorld world = (IWorld) dependencies.get("world");
-
 		double dX = 0;
 		double dY = 0;
 		double dZ = 0;
@@ -97,7 +104,5 @@ public class GrapplingHookRightClickedInAirProcedure extends MineonModElements.M
 			velocityZ = (double) ((topVelocity) * ((dZ) / Math.pow((magnitude), 2)));
 			entity.setMotion((velocityX), (velocityY), (velocityZ));
 		}
-
 	}
-
 }

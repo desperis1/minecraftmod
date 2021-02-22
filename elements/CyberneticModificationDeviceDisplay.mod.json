@@ -1,0 +1,40 @@
+{
+  "_fv": 13,
+  "_type": "gui",
+  "definition": {
+    "type": 1,
+    "width": 176,
+    "height": 166,
+    "inventoryOffsetX": 0,
+    "inventoryOffsetY": 0,
+    "renderBgLayer": true,
+    "doesPauseGame": false,
+    "components": [
+      {
+        "type": "button",
+        "data": {
+          "text": "Become Cybernetic",
+          "onClick": {
+            "name": "OnCyberneticsAccepted"
+          },
+          "width": 110,
+          "height": 20,
+          "name": "Become Cybernetic",
+          "x": 158,
+          "y": 48
+        }
+      },
+      {
+        "type": "textfield",
+        "data": {
+          "placeholder": "§cBy pressing this, you agree to dedicate your soul to being a robot forever. THIS CANNOT BE REVERSED. Choose wisely.",
+          "width": 120,
+          "height": 20,
+          "name": "CyberneticDescription",
+          "x": 153,
+          "y": 73
+        }
+      }
+    ]
+  }
+}

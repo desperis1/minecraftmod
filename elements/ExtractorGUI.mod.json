@@ -1,0 +1,69 @@
+{
+  "_fv": 13,
+  "_type": "gui",
+  "definition": {
+    "type": 1,
+    "width": 176,
+    "height": 166,
+    "inventoryOffsetX": 0,
+    "inventoryOffsetY": 0,
+    "renderBgLayer": true,
+    "doesPauseGame": false,
+    "components": [
+      {
+        "type": "label",
+        "data": {
+          "text": "Extractor",
+          "color": {
+            "value": -12829636,
+            "falpha": 0.0
+          },
+          "name": "Extractor",
+          "x": 188,
+          "y": 41
+        }
+      },
+      {
+        "type": "inputslot",
+        "data": {
+          "inputLimit": {
+            "value": ""
+          },
+          "id": 0,
+          "disableStackInteraction": false,
+          "dropItemsWhenNotBound": true,
+          "name": "Slot #0",
+          "x": 201,
+          "y": 59
+        }
+      },
+      {
+        "type": "button",
+        "data": {
+          "text": "Change",
+          "onClick": {
+            "name": "ExtractorGUIChangeButtononclik"
+          },
+          "width": 55,
+          "height": 20,
+          "name": "Change",
+          "x": 184,
+          "y": 80
+        }
+      },
+      {
+        "type": "label",
+        "data": {
+          "text": "Now Extracting:<BNBT:text:Source>",
+          "color": {
+            "value": -12829636,
+            "falpha": 0.0
+          },
+          "name": "Now Extracting:<BNBT:text:Source>",
+          "x": 140,
+          "y": 103
+        }
+      }
+    ]
+  }
+}

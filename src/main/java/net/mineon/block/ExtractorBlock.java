@@ -1,8 +1,9 @@
 
 package net.mineon.block;
 
+import net.mineon.procedures.ExtractorUpdateTickProcedure;
 import net.mineon.itemgroup.MineonItemGroup;
-import net.mineon.gui.FusionMacineGUIGui;
+import net.mineon.gui.ExtractorGUIGui;
 import net.mineon.MineonModElements;
 
 import net.minecraftforge.registries.ObjectHolder;
@@ -17,6 +18,7 @@ import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.common.capabilities.Capability;
 
 import net.minecraft.world.storage.loot.LootContext;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraft.world.World;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.IBlockReader;
@@ -24,24 +26,19 @@ import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.Rotation;
 import net.minecraft.util.NonNullList;
-import net.minecraft.util.Mirror;
 import net.minecraft.util.Hand;
 import net.minecraft.util.Direction;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.LockableLootTileEntity;
-import net.minecraft.state.StateContainer;
-import net.minecraft.state.DirectionProperty;
 import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Item;
-import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.BlockItem;
 import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.inventory.container.Container;
@@ -53,26 +50,28 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.SoundType;
-import net.minecraft.block.HorizontalBlock;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Block;
 
 import javax.annotation.Nullable;
 
 import java.util.stream.IntStream;
+import java.util.Random;
+import java.util.Map;
 import java.util.List;
+import java.util.HashMap;
 import java.util.Collections;
 
 import io.netty.buffer.Unpooled;
 
 @MineonModElements.ModElement.Tag
-public class FusionMachineBlock extends MineonModElements.ModElement {
-	@ObjectHolder("mineon:fusion_machine")
+public class ExtractorBlock extends MineonModElements.ModElement {
+	@ObjectHolder("mineon:extractor")
 	public static final Block block = null;
-	@ObjectHolder("mineon:fusion_machine")
+	@ObjectHolder("mineon:extractor")
 	public static final TileEntityType<CustomTileEntity> tileEntityType = null;
-	public FusionMachineBlock(MineonModElements instance) {
-		super(instance, 14);
+	public ExtractorBlock(MineonModElements instance) {
+		super(instance, 16);
 		FMLJavaModLoadingContext.get().getModEventBus().register(this);
 	}
 
@@ -84,14 +83,12 @@ public class FusionMachineBlock extends MineonModElements.ModElement {
 
 	@SubscribeEvent
 	public void registerTileEntity(RegistryEvent.Register<TileEntityType<?>> event) {
-		event.getRegistry().register(TileEntityType.Builder.create(CustomTileEntity::new, block).build(null).setRegistryName("fusion_machine"));
+		event.getRegistry().register(TileEntityType.Builder.create(CustomTileEntity::new, block).build(null).setRegistryName("extractor"));
 	}
 	public static class CustomBlock extends Block {
-		public static final DirectionProperty FACING = HorizontalBlock.HORIZONTAL_FACING;
 		public CustomBlock() {
 			super(Block.Properties.create(Material.IRON).sound(SoundType.METAL).hardnessAndResistance(1f, 10f).lightValue(0));
-			this.setDefaultState(this.stateContainer.getBaseState().with(FACING, Direction.NORTH));
-			setRegistryName("fusion_machine");
+			setRegistryName("extractor");
 		}
 
 		@Override
@@ -100,30 +97,37 @@ public class FusionMachineBlock extends MineonModElements.ModElement {
 		}
 
 		@Override
-		protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
-			builder.add(FACING);
-		}
-
-		public BlockState rotate(BlockState state, Rotation rot) {
-			return state.with(FACING, rot.rotate(state.get(FACING)));
-		}
-
-		public BlockState mirror(BlockState state, Mirror mirrorIn) {
-			return state.rotate(mirrorIn.toRotation(state.get(FACING)));
-		}
-
-		@Override
-		public BlockState getStateForPlacement(BlockItemUseContext context) {
-			;
-			return this.getDefaultState().with(FACING, context.getPlacementHorizontalFacing().getOpposite());
-		}
-
-		@Override
 		public List<ItemStack> getDrops(BlockState state, LootContext.Builder builder) {
 			List<ItemStack> dropsOriginal = super.getDrops(state, builder);
 			if (!dropsOriginal.isEmpty())
 				return dropsOriginal;
 			return Collections.singletonList(new ItemStack(this, 1));
+		}
+
+		@Override
+		public void onBlockAdded(BlockState state, World world, BlockPos pos, BlockState oldState, boolean moving) {
+			super.onBlockAdded(state, world, pos, oldState, moving);
+			int x = pos.getX();
+			int y = pos.getY();
+			int z = pos.getZ();
+			world.getPendingBlockTicks().scheduleTick(new BlockPos(x, y, z), this, this.tickRate(world));
+		}
+
+		@Override
+		public void tick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
+			super.tick(state, world, pos, random);
+			int x = pos.getX();
+			int y = pos.getY();
+			int z = pos.getZ();
+			{
+				Map<String, Object> $_dependencies = new HashMap<>();
+				$_dependencies.put("x", x);
+				$_dependencies.put("y", y);
+				$_dependencies.put("z", z);
+				$_dependencies.put("world", world);
+				ExtractorUpdateTickProcedure.executeProcedure($_dependencies);
+			}
+			world.getPendingBlockTicks().scheduleTick(new BlockPos(x, y, z), this, this.tickRate(world));
 		}
 
 		@Override
@@ -137,12 +141,12 @@ public class FusionMachineBlock extends MineonModElements.ModElement {
 				NetworkHooks.openGui((ServerPlayerEntity) entity, new INamedContainerProvider() {
 					@Override
 					public ITextComponent getDisplayName() {
-						return new StringTextComponent("Fusion Machine");
+						return new StringTextComponent("Extractor");
 					}
 
 					@Override
 					public Container createMenu(int id, PlayerInventory inventory, PlayerEntity player) {
-						return new FusionMacineGUIGui.GuiContainerMod(id, inventory,
+						return new ExtractorGUIGui.GuiContainerMod(id, inventory,
 								new PacketBuffer(Unpooled.buffer()).writeBlockPos(new BlockPos(x, y, z)));
 					}
 				}, new BlockPos(x, y, z));
@@ -201,7 +205,7 @@ public class FusionMachineBlock extends MineonModElements.ModElement {
 	}
 
 	public static class CustomTileEntity extends LockableLootTileEntity implements ISidedInventory {
-		private NonNullList<ItemStack> stacks = NonNullList.<ItemStack>withSize(3, ItemStack.EMPTY);
+		private NonNullList<ItemStack> stacks = NonNullList.<ItemStack>withSize(1, ItemStack.EMPTY);
 		protected CustomTileEntity() {
 			super(tileEntityType);
 		}
@@ -254,7 +258,7 @@ public class FusionMachineBlock extends MineonModElements.ModElement {
 
 		@Override
 		public ITextComponent getDefaultName() {
-			return new StringTextComponent("fusion_machine");
+			return new StringTextComponent("extractor");
 		}
 
 		@Override
@@ -264,12 +268,12 @@ public class FusionMachineBlock extends MineonModElements.ModElement {
 
 		@Override
 		public Container createMenu(int id, PlayerInventory player) {
-			return new FusionMacineGUIGui.GuiContainerMod(id, player, new PacketBuffer(Unpooled.buffer()).writeBlockPos(this.getPos()));
+			return new ExtractorGUIGui.GuiContainerMod(id, player, new PacketBuffer(Unpooled.buffer()).writeBlockPos(this.getPos()));
 		}
 
 		@Override
 		public ITextComponent getDisplayName() {
-			return new StringTextComponent("Fusion Machine");
+			return new StringTextComponent("Extractor");
 		}
 
 		@Override
@@ -284,8 +288,6 @@ public class FusionMachineBlock extends MineonModElements.ModElement {
 
 		@Override
 		public boolean isItemValidForSlot(int index, ItemStack stack) {
-			if (index == 2)
-				return false;
 			return true;
 		}
 
@@ -301,10 +303,6 @@ public class FusionMachineBlock extends MineonModElements.ModElement {
 
 		@Override
 		public boolean canExtractItem(int index, ItemStack stack, Direction direction) {
-			if (index == 0)
-				return false;
-			if (index == 1)
-				return false;
 			return true;
 		}
 		private final LazyOptional<? extends IItemHandler>[] handlers = SidedInvWrapper.create(this, Direction.values());

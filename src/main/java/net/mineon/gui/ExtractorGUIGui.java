@@ -3,6 +3,7 @@ package net.mineon.gui;
 
 import org.lwjgl.opengl.GL11;
 
+import net.mineon.procedures.ExtractorGUIChangeButtononclikProcedure;
 import net.mineon.MineonModElements;
 import net.mineon.MineonMod;
 
@@ -33,6 +34,7 @@ import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.Entity;
+import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.client.gui.ScreenManager;
 import net.minecraft.client.Minecraft;
@@ -42,11 +44,11 @@ import java.util.Map;
 import java.util.HashMap;
 
 @MineonModElements.ModElement.Tag
-public class FusionMacineGUIGui extends MineonModElements.ModElement {
+public class ExtractorGUIGui extends MineonModElements.ModElement {
 	public static HashMap guistate = new HashMap();
 	private static ContainerType<GuiContainerMod> containerType = null;
-	public FusionMacineGUIGui(MineonModElements instance) {
-		super(instance, 15);
+	public ExtractorGUIGui(MineonModElements instance) {
+		super(instance, 17);
 		elements.addNetworkMessage(ButtonPressedMessage.class, ButtonPressedMessage::buffer, ButtonPressedMessage::new,
 				ButtonPressedMessage::handler);
 		elements.addNetworkMessage(GUISlotChangedMessage.class, GUISlotChangedMessage::buffer, GUISlotChangedMessage::new,
@@ -62,7 +64,7 @@ public class FusionMacineGUIGui extends MineonModElements.ModElement {
 
 	@SubscribeEvent
 	public void registerContainer(RegistryEvent.Register<ContainerType<?>> event) {
-		event.getRegistry().register(containerType.setRegistryName("fusion_macine_gui"));
+		event.getRegistry().register(containerType.setRegistryName("extractor_gui"));
 	}
 	public static class GuiContainerModFactory implements IContainerFactory {
 		public GuiContainerMod create(int id, PlayerInventory inv, PacketBuffer extraData) {
@@ -81,7 +83,7 @@ public class FusionMacineGUIGui extends MineonModElements.ModElement {
 			super(containerType, id);
 			this.entity = inv.player;
 			this.world = inv.player.world;
-			this.internal = new ItemStackHandler(3);
+			this.internal = new ItemStackHandler(1);
 			BlockPos pos = null;
 			if (extraData != null) {
 				pos = extraData.readBlockPos();
@@ -119,15 +121,7 @@ public class FusionMacineGUIGui extends MineonModElements.ModElement {
 					}
 				}
 			}
-			this.customSlots.put(0, this.addSlot(new SlotItemHandler(internal, 0, 52, 26) {
-			}));
-			this.customSlots.put(1, this.addSlot(new SlotItemHandler(internal, 1, 106, 26) {
-			}));
-			this.customSlots.put(2, this.addSlot(new SlotItemHandler(internal, 2, 79, 53) {
-				@Override
-				public boolean isItemValid(ItemStack stack) {
-					return false;
-				}
+			this.customSlots.put(0, this.addSlot(new SlotItemHandler(internal, 0, 76, 23) {
 			}));
 			int si;
 			int sj;
@@ -154,18 +148,18 @@ public class FusionMacineGUIGui extends MineonModElements.ModElement {
 			if (slot != null && slot.getHasStack()) {
 				ItemStack itemstack1 = slot.getStack();
 				itemstack = itemstack1.copy();
-				if (index < 3) {
-					if (!this.mergeItemStack(itemstack1, 3, this.inventorySlots.size(), true)) {
+				if (index < 1) {
+					if (!this.mergeItemStack(itemstack1, 1, this.inventorySlots.size(), true)) {
 						return ItemStack.EMPTY;
 					}
 					slot.onSlotChange(itemstack1, itemstack);
-				} else if (!this.mergeItemStack(itemstack1, 0, 3, false)) {
-					if (index < 3 + 27) {
-						if (!this.mergeItemStack(itemstack1, 3 + 27, this.inventorySlots.size(), true)) {
+				} else if (!this.mergeItemStack(itemstack1, 0, 1, false)) {
+					if (index < 1 + 27) {
+						if (!this.mergeItemStack(itemstack1, 1 + 27, this.inventorySlots.size(), true)) {
 							return ItemStack.EMPTY;
 						}
 					} else {
-						if (!this.mergeItemStack(itemstack1, 3, 3 + 27, false)) {
+						if (!this.mergeItemStack(itemstack1, 1, 1 + 27, false)) {
 							return ItemStack.EMPTY;
 						}
 					}
@@ -305,7 +299,7 @@ public class FusionMacineGUIGui extends MineonModElements.ModElement {
 			this.xSize = 176;
 			this.ySize = 166;
 		}
-		private static final ResourceLocation texture = new ResourceLocation("mineon:textures/fusion_macine_gui.png");
+		private static final ResourceLocation texture = new ResourceLocation("mineon:textures/extractor_gui.png");
 		@Override
 		public void render(int mouseX, int mouseY, float partialTicks) {
 			this.renderBackground();
@@ -338,7 +332,15 @@ public class FusionMacineGUIGui extends MineonModElements.ModElement {
 
 		@Override
 		protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
-			this.font.drawString("Fusion Machine", 51, 7, -12829636);
+			this.font.drawString("Extractor", 62, 4, -12829636);
+			this.font.drawString("Now Extracting:" + (new Object() {
+				public String getValue(BlockPos pos, String tag) {
+					TileEntity tileEntity = world.getTileEntity(pos);
+					if (tileEntity != null)
+						return tileEntity.getTileData().getString(tag);
+					return "";
+				}
+			}.getValue(new BlockPos((int) x, (int) y, (int) z), "Source")) + "", 14, 66, -12829636);
 		}
 
 		@Override
@@ -351,6 +353,10 @@ public class FusionMacineGUIGui extends MineonModElements.ModElement {
 		public void init(Minecraft minecraft, int width, int height) {
 			super.init(minecraft, width, height);
 			minecraft.keyboardListener.enableRepeatEvents(true);
+			this.addButton(new Button(this.guiLeft + 58, this.guiTop + 43, 55, 20, "Change", e -> {
+				MineonMod.PACKET_HANDLER.sendToServer(new ButtonPressedMessage(0, x, y, z));
+				handleButtonAction(entity, 0, x, y, z);
+			}));
 		}
 	}
 
@@ -440,6 +446,16 @@ public class FusionMacineGUIGui extends MineonModElements.ModElement {
 		// security measure to prevent arbitrary chunk generation
 		if (!world.isBlockLoaded(new BlockPos(x, y, z)))
 			return;
+		if (buttonID == 0) {
+			{
+				Map<String, Object> $_dependencies = new HashMap<>();
+				$_dependencies.put("x", x);
+				$_dependencies.put("y", y);
+				$_dependencies.put("z", z);
+				$_dependencies.put("world", world);
+				ExtractorGUIChangeButtononclikProcedure.executeProcedure($_dependencies);
+			}
+		}
 	}
 
 	private static void handleSlotAction(PlayerEntity entity, int slotID, int changeType, int meta, int x, int y, int z) {

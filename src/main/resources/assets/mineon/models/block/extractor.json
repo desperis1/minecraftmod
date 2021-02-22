@@ -1,0 +1,7 @@
+{
+  "parent": "block/cube_all",
+  "textures": {
+    "all": "mineon:blocks/extractor_machine",
+    "particle": "mineon:blocks/extractor_machine"
+  }
+}

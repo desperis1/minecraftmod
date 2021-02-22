@@ -97,6 +97,10 @@
             "type": "entity"
           },
           {
+            "name": "itemstack",
+            "type": "itemstack"
+          },
+          {
             "name": "x",
             "type": "number"
           },
@@ -235,6 +239,108 @@
       "locked_code": false,
       "ids": {},
       "registry_name": "cybernetic_modification_device"
+    },
+    {
+      "name": "Extractor",
+      "type": "block",
+      "sortid": 16,
+      "compiles": true,
+      "locked_code": false,
+      "ids": {},
+      "registry_name": "extractor"
+    },
+    {
+      "name": "ExtractorGUI",
+      "type": "gui",
+      "sortid": 17,
+      "compiles": true,
+      "locked_code": false,
+      "ids": {},
+      "registry_name": "extractor_gui"
+    },
+    {
+      "name": "ExtractorGUIChangeButtononclik",
+      "type": "procedure",
+      "sortid": 18,
+      "compiles": true,
+      "locked_code": false,
+      "ids": {},
+      "registry_name": "extractor_gui_change_buttononclik",
+      "metadata": {
+        "dependencies": [
+          {
+            "name": "x",
+            "type": "number"
+          },
+          {
+            "name": "y",
+            "type": "number"
+          },
+          {
+            "name": "z",
+            "type": "number"
+          },
+          {
+            "name": "world",
+            "type": "world"
+          }
+        ]
+      }
+    },
+    {
+      "name": "GasCanisterItemIsCraftedsmelted",
+      "type": "procedure",
+      "sortid": 19,
+      "compiles": true,
+      "locked_code": false,
+      "ids": {},
+      "registry_name": "gas_canister_item_is_craftedsmelted",
+      "metadata": {
+        "dependencies": [
+          {
+            "name": "itemstack",
+            "type": "itemstack"
+          }
+        ]
+      }
+    },
+    {
+      "name": "ExtractorUpdateTick",
+      "type": "procedure",
+      "sortid": 20,
+      "compiles": true,
+      "locked_code": false,
+      "ids": {},
+      "registry_name": "extractor_update_tick",
+      "metadata": {
+        "dependencies": [
+          {
+            "name": "x",
+            "type": "number"
+          },
+          {
+            "name": "y",
+            "type": "number"
+          },
+          {
+            "name": "z",
+            "type": "number"
+          },
+          {
+            "name": "world",
+            "type": "world"
+          }
+        ]
+      }
+    },
+    {
+      "name": "GasCanisterRecipe",
+      "type": "recipe",
+      "sortid": 21,
+      "compiles": true,
+      "locked_code": false,
+      "ids": {},
+      "registry_name": "gas_canister_recipe"
     }
   ],
   "variable_elements": [
@@ -248,16 +354,20 @@
   "sound_elements": [],
   "language_map": {
     "en_us": {
+      "block.mineon.extractor": "Extractor",
       "block.mineon.orange_neon": "White Neon",
       "itemGroup.tabmineon": "Mineon",
       "key.mcreator.admin_menu_keybind": "Admin Menu",
       "item.mineon.grappling_hook": "Grappling Hook",
+      "item.mineon.gas_canister": "Gas Canister",
+      "block.mineon.fusion_machine": "Fusion Machine",
       "block.mineon.blue_neon": "White Neon",
       "block.mineon.red_neon": "White Neon",
       "block.mineon.yellow_neon": "White Neon",
       "block.mineon.green_neon": "White Neon",
       "block.mineon.white_neon": "White Neon",
-      "block.mineon.pink_neon": "White Neon"
+      "block.mineon.pink_neon": "White Neon",
+      "block.mineon.cybernetic_modification_device": "Cybernetic Modification Device"
     }
   },
   "workspaceSettings": {

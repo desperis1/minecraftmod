@@ -72,6 +72,91 @@
       "locked_code": false,
       "ids": {},
       "registry_name": "orange_neon"
+    },
+    {
+      "name": "AdminMenu",
+      "type": "gui",
+      "sortid": 9,
+      "compiles": true,
+      "locked_code": false,
+      "ids": {},
+      "registry_name": "admin_menu"
+    },
+    {
+      "name": "AdminMenuSurvivalCreativeButtonclick",
+      "type": "procedure",
+      "sortid": 10,
+      "compiles": true,
+      "locked_code": false,
+      "ids": {},
+      "registry_name": "admin_menu_survival_creative_buttonclick",
+      "metadata": {
+        "dependencies": [
+          {
+            "name": "entity",
+            "type": "entity"
+          }
+        ]
+      }
+    },
+    {
+      "name": "AdminMenuDayNightbuttononclick",
+      "type": "procedure",
+      "sortid": 11,
+      "compiles": true,
+      "locked_code": false,
+      "ids": {},
+      "registry_name": "admin_menu_day_nightbuttononclick",
+      "metadata": {
+        "dependencies": [
+          {
+            "name": "world",
+            "type": "world"
+          }
+        ]
+      }
+    },
+    {
+      "name": "AdminMenuKeybindOnKeyPressed",
+      "type": "procedure",
+      "sortid": 12,
+      "compiles": true,
+      "locked_code": false,
+      "ids": {},
+      "registry_name": "admin_menu_keybind_on_key_pressed",
+      "metadata": {
+        "dependencies": [
+          {
+            "name": "entity",
+            "type": "entity"
+          },
+          {
+            "name": "x",
+            "type": "number"
+          },
+          {
+            "name": "y",
+            "type": "number"
+          },
+          {
+            "name": "z",
+            "type": "number"
+          },
+          {
+            "name": "world",
+            "type": "world"
+          }
+        ]
+      }
+    },
+    {
+      "name": "AdminMenuKeybind",
+      "type": "keybind",
+      "sortid": 12,
+      "compiles": true,
+      "locked_code": false,
+      "ids": {},
+      "registry_name": "admin_menu_keybind"
     }
   ],
   "variable_elements": [],
@@ -85,7 +170,8 @@
       "block.mineon.white_neon": "White Neon",
       "block.mineon.orange_neon": "White Neon",
       "block.mineon.pink_neon": "White Neon",
-      "itemGroup.tabmineon": "Mineon"
+      "itemGroup.tabmineon": "Mineon",
+      "key.mcreator.admin_menu_keybind": "Admin Menu"
     }
   },
   "workspaceSettings": {

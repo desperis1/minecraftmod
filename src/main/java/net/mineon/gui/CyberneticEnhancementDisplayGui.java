@@ -3,7 +3,6 @@ package net.mineon.gui;
 
 import org.lwjgl.opengl.GL11;
 
-import net.mineon.procedures.OnCyberneticsAcceptedProcedure;
 import net.mineon.MineonModElements;
 import net.mineon.MineonMod;
 
@@ -38,11 +37,11 @@ import java.util.Map;
 import java.util.HashMap;
 
 @MineonModElements.ModElement.Tag
-public class CyberneticModificationDeviceDisplayGui extends MineonModElements.ModElement {
+public class CyberneticEnhancementDisplayGui extends MineonModElements.ModElement {
 	public static HashMap guistate = new HashMap();
 	private static ContainerType<GuiContainerMod> containerType = null;
-	public CyberneticModificationDeviceDisplayGui(MineonModElements instance) {
-		super(instance, 16);
+	public CyberneticEnhancementDisplayGui(MineonModElements instance) {
+		super(instance, 22);
 		elements.addNetworkMessage(ButtonPressedMessage.class, ButtonPressedMessage::buffer, ButtonPressedMessage::new,
 				ButtonPressedMessage::handler);
 		elements.addNetworkMessage(GUISlotChangedMessage.class, GUISlotChangedMessage::buffer, GUISlotChangedMessage::new,
@@ -58,7 +57,7 @@ public class CyberneticModificationDeviceDisplayGui extends MineonModElements.Mo
 
 	@SubscribeEvent
 	public void registerContainer(RegistryEvent.Register<ContainerType<?>> event) {
-		event.getRegistry().register(containerType.setRegistryName("cybernetic_modification_device_display"));
+		event.getRegistry().register(containerType.setRegistryName("cybernetic_enhancement_display"));
 	}
 	public static class GuiContainerModFactory implements IContainerFactory {
 		public GuiContainerMod create(int id, PlayerInventory inv, PacketBuffer extraData) {
@@ -109,10 +108,10 @@ public class CyberneticModificationDeviceDisplayGui extends MineonModElements.Mo
 			this.y = container.y;
 			this.z = container.z;
 			this.entity = container.entity;
-			this.xSize = 116;
-			this.ySize = 26;
+			this.xSize = 176;
+			this.ySize = 166;
 		}
-		private static final ResourceLocation texture = new ResourceLocation("mineon:textures/cybernetic_modification_device_display.png");
+		private static final ResourceLocation texture = new ResourceLocation("mineon:textures/cybernetic_enhancement_display.png");
 		@Override
 		public void render(int mouseX, int mouseY, float partialTicks) {
 			this.renderBackground();
@@ -145,6 +144,7 @@ public class CyberneticModificationDeviceDisplayGui extends MineonModElements.Mo
 
 		@Override
 		protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
+			this.font.drawString("Upgrades", 68, 7, -16777216);
 		}
 
 		@Override
@@ -157,9 +157,37 @@ public class CyberneticModificationDeviceDisplayGui extends MineonModElements.Mo
 		public void init(Minecraft minecraft, int width, int height) {
 			super.init(minecraft, width, height);
 			minecraft.keyboardListener.enableRepeatEvents(true);
-			this.addButton(new Button(this.guiLeft + 1, this.guiTop + 2, 110, 20, "Become Cybernetic", e -> {
+			this.addButton(new Button(this.guiLeft + 4, this.guiTop + 25, 75, 20, "+ Strength", e -> {
 				MineonMod.PACKET_HANDLER.sendToServer(new ButtonPressedMessage(0, x, y, z));
 				handleButtonAction(entity, 0, x, y, z);
+			}));
+			this.addButton(new Button(this.guiLeft + 84, this.guiTop + 25, 85, 20, "+ Resistance", e -> {
+				MineonMod.PACKET_HANDLER.sendToServer(new ButtonPressedMessage(1, x, y, z));
+				handleButtonAction(entity, 1, x, y, z);
+			}));
+			this.addButton(new Button(this.guiLeft + 4, this.guiTop + 49, 55, 20, "+ Jump", e -> {
+				MineonMod.PACKET_HANDLER.sendToServer(new ButtonPressedMessage(2, x, y, z));
+				handleButtonAction(entity, 2, x, y, z);
+			}));
+			this.addButton(new Button(this.guiLeft + 74, this.guiTop + 49, 95, 20, "+ Night Vision", e -> {
+				MineonMod.PACKET_HANDLER.sendToServer(new ButtonPressedMessage(3, x, y, z));
+				handleButtonAction(entity, 3, x, y, z);
+			}));
+			this.addButton(new Button(this.guiLeft + 33, this.guiTop + 74, 110, 20, "+ Fire Resistance", e -> {
+				MineonMod.PACKET_HANDLER.sendToServer(new ButtonPressedMessage(4, x, y, z));
+				handleButtonAction(entity, 4, x, y, z);
+			}));
+			this.addButton(new Button(this.guiLeft + 37, this.guiTop + 99, 100, 20, "+ Water Breathing", e -> {
+				MineonMod.PACKET_HANDLER.sendToServer(new ButtonPressedMessage(5, x, y, z));
+				handleButtonAction(entity, 5, x, y, z);
+			}));
+			this.addButton(new Button(this.guiLeft + 5, this.guiTop + 124, 95, 20, "+ Regeneration", e -> {
+				MineonMod.PACKET_HANDLER.sendToServer(new ButtonPressedMessage(6, x, y, z));
+				handleButtonAction(entity, 6, x, y, z);
+			}));
+			this.addButton(new Button(this.guiLeft + 109, this.guiTop + 124, 60, 20, "+ Speed", e -> {
+				MineonMod.PACKET_HANDLER.sendToServer(new ButtonPressedMessage(7, x, y, z));
+				handleButtonAction(entity, 7, x, y, z);
 			}));
 		}
 	}
@@ -250,13 +278,6 @@ public class CyberneticModificationDeviceDisplayGui extends MineonModElements.Mo
 		// security measure to prevent arbitrary chunk generation
 		if (!world.isBlockLoaded(new BlockPos(x, y, z)))
 			return;
-		if (buttonID == 0) {
-			{
-				Map<String, Object> $_dependencies = new HashMap<>();
-				$_dependencies.put("entity", entity);
-				OnCyberneticsAcceptedProcedure.executeProcedure($_dependencies);
-			}
-		}
 	}
 
 	private static void handleSlotAction(PlayerEntity entity, int slotID, int changeType, int meta, int x, int y, int z) {

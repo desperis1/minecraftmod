@@ -22,18 +22,24 @@ public class OnCyberneticsAcceptedProcedure extends MineonModElements.ModElement
 			return;
 		}
 		Entity entity = (Entity) dependencies.get("entity");
-		{
-			boolean _setval = (boolean) (true);
-			entity.getCapability(MineonModVariables.PLAYER_VARIABLES_CAPABILITY, null).ifPresent(capability -> {
-				capability.isCybernetic = _setval;
-				capability.syncPlayerVariables(entity);
-			});
+		if (((entity.getPersistentData().getBoolean("mineon:cybernetic")) == (false))) {
+			{
+				boolean _setval = (boolean) (true);
+				entity.getCapability(MineonModVariables.PLAYER_VARIABLES_CAPABILITY, null).ifPresent(capability -> {
+					capability.isCybernetic = _setval;
+					capability.syncPlayerVariables(entity);
+				});
+			}
+			if (entity instanceof PlayerEntity && !entity.world.isRemote) {
+				((PlayerEntity) entity).sendStatusMessage(new StringTextComponent("\u00A7cYou feel indescribable pain as you abandon your humanity."),
+						(false));
+			}
+			if (entity instanceof PlayerEntity)
+				((PlayerEntity) entity).closeScreen();
+		} else {
+			if (entity instanceof PlayerEntity && !entity.world.isRemote) {
+				((PlayerEntity) entity).sendStatusMessage(new StringTextComponent("\u00A7cYou are already a cybernetic."), (false));
+			}
 		}
-		if (entity instanceof PlayerEntity && !entity.world.isRemote) {
-			((PlayerEntity) entity).sendStatusMessage(new StringTextComponent("\u00A7cYou feel indescribable pain as you abandon your humanity."),
-					(false));
-		}
-		if (entity instanceof PlayerEntity)
-			((PlayerEntity) entity).closeScreen();
 	}
 }

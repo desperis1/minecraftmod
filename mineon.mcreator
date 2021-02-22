@@ -72,6 +72,48 @@
       "locked_code": false,
       "ids": {},
       "registry_name": "orange_neon"
+    },
+    {
+      "name": "GrapplingHookRightClickedInAir",
+      "type": "procedure",
+      "sortid": 9,
+      "compiles": true,
+      "locked_code": false,
+      "ids": {},
+      "registry_name": "grappling_hook_right_clicked_in_air",
+      "metadata": {
+        "dependencies": [
+          {
+            "name": "entity",
+            "type": "entity"
+          },
+          {
+            "name": "x",
+            "type": "number"
+          },
+          {
+            "name": "y",
+            "type": "number"
+          },
+          {
+            "name": "z",
+            "type": "number"
+          },
+          {
+            "name": "world",
+            "type": "world"
+          }
+        ]
+      }
+    },
+    {
+      "name": "GrapplingHook",
+      "type": "item",
+      "sortid": 9,
+      "compiles": true,
+      "locked_code": false,
+      "ids": {},
+      "registry_name": "grappling_hook"
     }
   ],
   "variable_elements": [],
@@ -85,7 +127,8 @@
       "block.mineon.white_neon": "White Neon",
       "block.mineon.orange_neon": "White Neon",
       "block.mineon.pink_neon": "White Neon",
-      "itemGroup.tabmineon": "Mineon"
+      "itemGroup.tabmineon": "Mineon",
+      "item.mineon.grappling_hook": "Grappling Hook"
     }
   },
   "workspaceSettings": {

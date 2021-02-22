@@ -6,5 +6,6 @@
   "block.mineon.white_neon": "White Neon",
   "block.mineon.orange_neon": "White Neon",
   "block.mineon.pink_neon": "White Neon",
-  "itemGroup.tabmineon": "Mineon"
+  "itemGroup.tabmineon": "Mineon",
+  "item.mineon.grappling_hook": "Grappling Hook"
 }

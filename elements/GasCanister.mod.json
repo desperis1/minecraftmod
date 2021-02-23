@@ -23,9 +23,6 @@
     "hasGlow": false,
     "repairItems": [],
     "stayInGridWhenCrafting": false,
-    "damageOnCrafting": false,
-    "onCrafted": {
-      "name": "GasCanisterItemIsCraftedsmelted"
-    }
+    "damageOnCrafting": false
   }
 }
